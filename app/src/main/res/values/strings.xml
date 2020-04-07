@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">VU Judo</string>
+    <string name="logInEmailAddressPrompt">Email Address</string>
+    <string name="logInPasswordPrompt">Password</string>
+    <string name="logInButton">Log In</string>
+    <string name="logInSignUpButton">Sign Up</string>
 </resources>
