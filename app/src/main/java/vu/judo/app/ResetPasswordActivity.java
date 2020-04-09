@@ -1,14 +1,14 @@
-package com.example.vujudo;
+package vu.judo.app;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
-public class HomeActivity extends AppCompatActivity {
+
+public class ResetPasswordActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_reset_password);
     }
 }

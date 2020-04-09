@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.vujudo">
+    package="vu.judo.app">
 
     <application
         android:allowBackup="true"
-        android:name=".VUJudo"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SignUpActivity"/>
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name="vu.judo.app.ResetPasswordActivity" />
+        <activity
+            android:name="vu.judo.app.ForgotPasswordActivity"
+            android:parentActivityName="vu.judo.app.MainActivity" />
+        <activity
+            android:name="vu.judo.app.SignUpActivity"
+            android:parentActivityName="vu.judo.app.MainActivity" />
+        <activity android:name="vu.judo.app.HomeActivity" />
+        <activity android:name="vu.judo.app.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

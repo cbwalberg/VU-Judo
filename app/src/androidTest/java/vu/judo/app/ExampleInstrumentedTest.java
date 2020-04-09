@@ -1,4 +1,4 @@
-package com.example.vujudo;
+package vu.judo.app;
 
 import android.content.Context;
 

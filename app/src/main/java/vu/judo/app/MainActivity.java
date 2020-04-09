@@ -1,4 +1,4 @@
-package com.example.vujudo;
+package vu.judo.app;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,24 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.vujudo.RealmModel.User;
-
-import io.realm.Realm;
-import io.realm.RealmResults;
-
 public class MainActivity extends AppCompatActivity {
 
-    /**
-     * REALM RESOURCES:
-     * https://www.youtube.com/watch?v=x_5Ifs8kIrI
-     */
-
-    EditText emailAddressCapture;
-    EditText passwordCapture;
-    String emailAddress;
-    String password;
-
-    Realm realm;
+    EditText emailAddressCapture, passwordCapture;
+    String emailAddress, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,32 +19,26 @@ public class MainActivity extends AppCompatActivity {
 
         emailAddressCapture = findViewById(R.id.logInEmailAddress);
         passwordCapture = findViewById(R.id.logInPassword);
-
-        realm = Realm.getDefaultInstance();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        realm.close();
-    }
-
-    public void logInAttempt(View view) {
+    public void logIn(View view) {
         emailAddress = emailAddressCapture.getText().toString();
         password = passwordCapture.getText().toString();
 
-        //Validate credentials
-        RealmResults<User> users = realm.where(User.class).equalTo("emailAddress", emailAddress).and().equalTo("password", password).findAll();
-
-        if (!users.isEmpty()) {
+        //Query DB to validate credentials
+        if (true) {
             startActivity(new Intent(this, HomeActivity.class));
         } else {
-            //display error message: incorrect email or password
+            //incorrect email or password
         }
 
     }
 
     public void signUp(View view) {
         startActivity(new Intent(this, SignUpActivity.class));
+    }
+
+    public void forgotPassword(View view) {
+        startActivity(new Intent(this, ForgotPasswordActivity.class));
     }
 }
