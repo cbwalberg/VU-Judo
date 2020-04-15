@@ -4,11 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class ForgotPasswordActivity extends AppCompatActivity {
 
+    static final String TAG = "ForgotPassword";
+
+    FirebaseAuth firebaseAuth;
     EditText emailAddressCapture;
     String emailAddress;
 
@@ -19,8 +25,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            Log.e(TAG, "getSupportActionBar().setDisplayHomeAsUpEnabled:failure", e);
         }
+        firebaseAuth = FirebaseAuth.getInstance();
 
         emailAddressCapture = findViewById(R.id.forgotPassEmailAddress);
     }
@@ -32,7 +39,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         if (android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
             //Query DB to check if emailAddress is tied to existing account
             if (true) {
-                startActivity(new Intent(this, ResetPasswordActivity.class));
+                //firebase reset password
             } else {
                 //There is no account tied to this email
             }

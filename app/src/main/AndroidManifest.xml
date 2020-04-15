@@ -9,7 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="vu.judo.app.ResetPasswordActivity" />
         <activity
             android:name="vu.judo.app.ForgotPasswordActivity"
             android:parentActivityName="vu.judo.app.MainActivity" />
