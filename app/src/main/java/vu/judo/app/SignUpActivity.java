@@ -40,6 +40,12 @@ public class SignUpActivity extends AppCompatActivity {
         emailAddressCapture = findViewById(R.id.signUpEmailAddress);
         passwordCapture = findViewById(R.id.signUpPassword);
         passwordReenterCapture = findViewById(R.id.signUpPasswordConfirmation);
+
+        //Clear any existing text on creation
+        nameCapture.getText().clear();
+        emailAddressCapture.getText().clear();
+        passwordCapture.getText().clear();
+        passwordReenterCapture.getText().clear();
     }
 
     public void submitSignUp(View view) {
@@ -48,44 +54,60 @@ public class SignUpActivity extends AppCompatActivity {
         password = passwordCapture.getText().toString();
         passwordReenter = passwordReenterCapture.getText().toString();
 
-        //Check if emailAddress is a valid email address
-        if (android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
-            //Check if password matches re-entered password
-            if (password.equals(passwordReenter)) {
-                firebaseAuth.createUserWithEmailAndPassword(emailAddress, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            //Sign up is successful, return to Log In Screen
-                            startActivity(new Intent(SignUpActivity.this, MainActivity.class));
-                            Log.d(TAG, "createUserWithEmail:success");
-                        } else {
-                            //Sign up is unsuccessful, notify user why
-                            try {
-                                throw task.getException();
-                            } catch (FirebaseAuthWeakPasswordException weakPassword) {
-                                //This password is too weak
-                                Toast.makeText(SignUpActivity.this, "This password is too weak", Toast.LENGTH_SHORT).show();
-                                Log.w(TAG, "createUserWithEmail:failure", weakPassword);
-                            } catch (FirebaseAuthUserCollisionException userAlreadyExists) {
-                                //User with this email already exists
-                                Toast.makeText(SignUpActivity.this, "A user with this email address already exists", Toast.LENGTH_SHORT).show();
-                                Log.w(TAG, "createUserWithEmail:failure", userAlreadyExists);
-                            } catch (Exception e) {
-                                //Unknown Error
-                                Toast.makeText(SignUpActivity.this, "Authentication failed. Please try again shortly", Toast.LENGTH_SHORT).show();
-                                Log.e(TAG, "createUserWithEmail:failure", e);
+        //GREY OUT INPUT AND SIGN UP BUTTON SO THEY CAN'T BE USED. DISPLAY LOADING SPINNER
+        //...
+
+        //Check if name is valid
+        if (name.length() > 2) {
+            //Check if emailAddress is a valid email address
+            if (android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
+                //Make sure password & password reenter are not empty
+                if (!password.isEmpty() && !passwordReenter.isEmpty()) {
+                    //Check if password matches re-entered password
+                    if (password.equals(passwordReenter)) {
+                        //Sign up for account using email and password
+                        firebaseAuth.createUserWithEmailAndPassword(emailAddress, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    //Sign up is successful, return to Log In Screen
+                                    startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+                                    Log.d(TAG, "createUserWithEmail:success");
+                                } else {
+                                    //Sign up is unsuccessful, notify user why
+                                    try {
+                                        throw task.getException();
+                                    } catch (FirebaseAuthWeakPasswordException weakPassword) {
+                                        //This password is too weak
+                                        Toast.makeText(SignUpActivity.this, "This password is too weak", Toast.LENGTH_LONG).show();
+                                        Log.w(TAG, "createUserWithEmail:failure", weakPassword);
+                                    } catch (FirebaseAuthUserCollisionException userAlreadyExists) {
+                                        //User with this email already exists
+                                        Toast.makeText(SignUpActivity.this, "A user with this email address already exists", Toast.LENGTH_LONG).show();
+                                        Log.w(TAG, "createUserWithEmail:failure", userAlreadyExists);
+                                    } catch (Exception e) {
+                                        //Unknown Error
+                                        Toast.makeText(SignUpActivity.this, "Authentication failed. Please try again shortly", Toast.LENGTH_LONG).show();
+                                        Log.e(TAG, "createUserWithEmail:failure", e);
+                                    }
+                                }
                             }
-                        }
+                        });
+                    } else {
+                        //Passwords do not match
+                        Toast.makeText(SignUpActivity.this, "Passwords do not match", Toast.LENGTH_LONG).show();
                     }
-                });
+                } else {
+                    //Password or password reeneter is empty
+                    Toast.makeText(SignUpActivity.this, "Please enter a password", Toast.LENGTH_LONG).show();
+                }
             } else {
-                //Passwords do not match
-                Toast.makeText(SignUpActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                //Invalid email address
+                Toast.makeText(SignUpActivity.this, "Invalid email address", Toast.LENGTH_LONG).show();
             }
         } else {
-            //Invalid email address
-            Toast.makeText(SignUpActivity.this, "Invalid email address", Toast.LENGTH_SHORT).show();
+            //Invalid name
+            Toast.makeText(SignUpActivity.this, "Please enter a valid name", Toast.LENGTH_LONG).show();
         }
     }
 }

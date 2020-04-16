@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     EditText emailAddressCapture, passwordCapture;
     String emailAddress, password;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,45 +33,58 @@ public class MainActivity extends AppCompatActivity {
 
         emailAddressCapture = findViewById(R.id.logInEmailAddress);
         passwordCapture = findViewById(R.id.logInPassword);
+
+        //Clear any existing text on creation
+        emailAddressCapture.getText().clear();
+        passwordCapture.getText().clear();
     }
 
     public void logIn(View view) {
         emailAddress = emailAddressCapture.getText().toString();
         password = passwordCapture.getText().toString();
 
+        //GREY OUT INPUT AND LOGIN BUTTON SO THEY CAN'T BE USED. DISPLAY LOADING SPINNER
+        //...
+
         //Check if emailAddress is a valid email address
         if (android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
-            //Sign into FireBaseDB using email and password
-            firebaseAuth.signInWithEmailAndPassword(emailAddress, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        //Sign in is successful, log the success for later
-                        startActivity(new Intent(MainActivity.this, HomeActivity.class));
-                        Log.d(TAG, "signInWithEmail:success");
-                    } else {
-                        //Sign in is unsuccessful, notify user why
-                        try {
-                            throw task.getException();
-                        } catch (FirebaseAuthInvalidUserException noExistingUser) {
-                            //There is no account with this email
-                            Toast.makeText(MainActivity.this, "No user exists with this email address", Toast.LENGTH_SHORT).show();
-                            Log.w(TAG, "signInWithEmail:failure", noExistingUser);
-                        } catch (FirebaseAuthInvalidCredentialsException wrongPassword) {
-                            //Incorrect Password
-                            Toast.makeText(MainActivity.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
-                            Log.w(TAG, "signInWithEmail:failure", wrongPassword);
-                        } catch (Exception e) {
-                            //Unknown Error
-                            Toast.makeText(MainActivity.this, "Authentication failed. Please try again shortly", Toast.LENGTH_SHORT).show();
-                            Log.e(TAG, "signInWithEmail:failure" + e.getMessage(), e);
+            //Make sure password is not empty
+            if (!password.isEmpty()) {
+                //Sign into FireBaseDB using email and password
+                firebaseAuth.signInWithEmailAndPassword(emailAddress, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            //Sign in is successful, log the success for later
+                            startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                            Log.d(TAG, "signInWithEmail:success");
+                        } else {
+                            //Sign in is unsuccessful, notify user why
+                            try {
+                                throw task.getException();
+                            } catch (FirebaseAuthInvalidUserException noExistingUser) {
+                                //There is no account with this email
+                                Toast.makeText(MainActivity.this, "No user exists with this email address", Toast.LENGTH_LONG).show();
+                                Log.w(TAG, "signInWithEmail:failure", noExistingUser);
+                            } catch (FirebaseAuthInvalidCredentialsException wrongPassword) {
+                                //Incorrect Password
+                                Toast.makeText(MainActivity.this, "Incorrect Password", Toast.LENGTH_LONG).show();
+                                Log.w(TAG, "signInWithEmail:failure", wrongPassword);
+                            } catch (Exception e) {
+                                //Unknown Error
+                                Toast.makeText(MainActivity.this, "Authentication failed. Please try again shortly", Toast.LENGTH_LONG).show();
+                                Log.e(TAG, "signInWithEmail:failure" + e.getMessage(), e);
+                            }
                         }
                     }
-                }
-            });
+                });
+            } else {
+                //Passowrd is empty
+                Toast.makeText(MainActivity.this, "Please enter your password", Toast.LENGTH_LONG).show();
+            }
         } else {
             //Invalid Email Address
-            Toast.makeText(MainActivity.this, "Invalid email address", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Invalid email address", Toast.LENGTH_LONG).show();
         }
     }
 
