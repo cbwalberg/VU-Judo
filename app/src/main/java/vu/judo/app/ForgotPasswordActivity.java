@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -19,9 +20,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     static final String TAG = "ForgotPassword";
 
-    FirebaseAuth firebaseAuth;
-    EditText emailAddressCapture;
     String emailAddress;
+    EditText emailAddressCapture;
+    Button forgotPasswordButton;
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         emailAddressCapture = findViewById(R.id.forgotPassEmailAddress);
+        forgotPasswordButton = findViewById(R.id.forgotPassConfirmButton);
 
         //Clear any existing text on creation
         emailAddressCapture.getText().clear();
@@ -43,8 +46,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     public void confirmEmailAddress(View view) {
         emailAddress = emailAddressCapture.getText().toString();
 
-        //GREY OUT INPUT AND SIGN UP BUTTON SO THEY CAN'T BE USED. DISPLAY LOADING SPINNER
-        //...
+        //Disable UI while attempting to send email
+        forgotPasswordButton.setEnabled(false);
+        emailAddressCapture.setEnabled(false);
 
         //Check if emailAddress is a valid email address
         if (android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
@@ -77,5 +81,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             //invalid email address
             Toast.makeText(ForgotPasswordActivity.this, "Invalid email address", Toast.LENGTH_LONG).show();
         }
+
+        //Whether successful or not, re-enable UI
+        forgotPasswordButton.setEnabled(false);
+        emailAddressCapture.setEnabled(false);
     }
 }

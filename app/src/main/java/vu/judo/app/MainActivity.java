@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
     EditText emailAddressCapture, passwordCapture;
+    Button logInButton;
     String emailAddress, password;
 
     @Override
@@ -33,8 +35,14 @@ public class MainActivity extends AppCompatActivity {
 
         emailAddressCapture = findViewById(R.id.logInEmailAddress);
         passwordCapture = findViewById(R.id.logInPassword);
+        logInButton = findViewById(R.id.logInButton);
+    }
 
-        //Clear any existing text on creation
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        //Clear any existing text
         emailAddressCapture.getText().clear();
         passwordCapture.getText().clear();
     }
@@ -43,8 +51,10 @@ public class MainActivity extends AppCompatActivity {
         emailAddress = emailAddressCapture.getText().toString();
         password = passwordCapture.getText().toString();
 
-        //GREY OUT INPUT AND LOGIN BUTTON SO THEY CAN'T BE USED. DISPLAY LOADING SPINNER
-        //...
+        //Disable UI while attempting to Log In
+        view.setClickable(false);
+        emailAddressCapture.setEnabled(false);
+        passwordCapture.setEnabled(false);
 
         //Check if emailAddress is a valid email address
         if (android.util.Patterns.EMAIL_ADDRESS.matcher(emailAddress).matches()) {
@@ -55,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            //Sign in is successful, log the success for later
+                            //Sign in is successful, navigate to home screen
+                            Toast.makeText(MainActivity.this, "Welcome!", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(MainActivity.this, HomeActivity.class));
                             Log.d(TAG, "signInWithEmail:success");
                         } else {
@@ -79,13 +90,18 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
             } else {
-                //Passowrd is empty
+                //Password is empty
                 Toast.makeText(MainActivity.this, "Please enter your password", Toast.LENGTH_LONG).show();
             }
         } else {
             //Invalid Email Address
             Toast.makeText(MainActivity.this, "Invalid email address", Toast.LENGTH_LONG).show();
         }
+
+        //Whether successful or not, re-enable UI
+        view.setClickable(true);
+        emailAddressCapture.setEnabled(true);
+        passwordCapture.setEnabled(true);
     }
 
     public void signUp(View view) {

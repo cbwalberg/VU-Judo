@@ -5,9 +5,9 @@
     <string name="logInButton">Log In</string>
     <string name="signUpButton">Sign Up</string>
     <string name="forgotPasswordButton">Forgot Password?</string>
-    <string name="namePrompt">Name</string>
+    <string name="firstNamePrompt">First Name</string>
+    <string name="lastNamePrompt">Last Name</string>
     <string name="confirmPasswordPrompt">Re-enter Password</string>
     <string name="submit">Submit</string>
     <string name="confirm">Confirm</string>
-
 </resources>
