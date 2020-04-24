@@ -22,10 +22,12 @@ public class MainActivity extends AppCompatActivity {
 
     static final String TAG = "Main";
 
-    FirebaseAuth firebaseAuth;
+    String emailAddress, password;
+
     EditText emailAddressCapture, passwordCapture;
     Button logInButton;
-    String emailAddress, password;
+
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         passwordCapture.getText().clear();
     }
 
+    @SuppressWarnings("ConstantConditions")
     public void logIn(View view) {
         emailAddress = emailAddressCapture.getText().toString();
         password = passwordCapture.getText().toString();

@@ -10,4 +10,9 @@
     <string name="confirmPasswordPrompt">Re-enter Password</string>
     <string name="submit">Submit</string>
     <string name="confirm">Confirm</string>
+    <string name="score">Score</string>
+    <string name="rank">Rank</string>
+    <string name="dailyAssignmentButton">Today\'s\nTechnique</string>
+    <string name="leaderboardButton">Leaderboard</string>
+    <string name="libraryButton">Exercises and Drills</string>
 </resources>
