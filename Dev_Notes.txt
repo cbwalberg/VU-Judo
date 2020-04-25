@@ -12,7 +12,10 @@ Firestore Guide:
 https://firebase.google.com/docs/firestore?authuser=0
 
 Firestore Reference:
-https://firebase.google.com/docs/reference/android/com/google/firebase/firestore/DocumentSnapshot
+https://firebase.google.com/docs/reference/android/com/google/firebase/firestore/package-summary
 
-Toolbar Docs:
-https://developer.android.com/training/appbar
+Sorting 2D Arrays for Leaderboard:
+https://stackoverflow.com/questions/15452429/java-arrays-sort-2d-array
+
+Dynamically create layout for Library:
+https://www.javacodegeeks.com/2012/09/android-dynamic-and-xml-layout.html

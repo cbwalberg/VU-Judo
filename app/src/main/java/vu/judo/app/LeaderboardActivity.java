@@ -14,6 +14,7 @@ public class LeaderboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard);
+
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         } catch (NullPointerException e) {

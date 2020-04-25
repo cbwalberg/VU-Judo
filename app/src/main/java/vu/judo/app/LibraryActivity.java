@@ -2,8 +2,10 @@ package vu.judo.app;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 public class LibraryActivity extends AppCompatActivity {
 
@@ -19,5 +21,9 @@ public class LibraryActivity extends AppCompatActivity {
         } catch (NullPointerException e) {
             Log.e(TAG, "getSupportActionBar().setDisplayHomeAsUpEnabled:failure", e);
         }
+    }
+
+    public void logActivity(View view) {
+        startActivity(new Intent(this, LogActivity.class).putExtra("goto", "LibraryActivity"));
     }
 }

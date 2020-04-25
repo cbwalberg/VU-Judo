@@ -27,7 +27,7 @@
         <activity android:name=".HomeActivity" />
         <activity
             android:name=".LogActivity"
-            android:parentActivityName=".HomeActivity" />
+            android:parentActivityName=".LibraryActivity" />
         <activity
             android:name=".LeaderboardActivity"
             android:parentActivityName=".HomeActivity" />

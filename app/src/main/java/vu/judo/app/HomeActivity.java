@@ -78,8 +78,9 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void dailyAssignment(View view) {
-        //Use bundle to pass information to LogActivity
         Bundle thisAssignment = new Bundle();
+        thisAssignment.putString("goto", "HomeActivity");
+        thisAssignment.putString("waza", "TESTING");
         startActivity(new Intent(this, LogActivity.class).putExtras(thisAssignment));
     }
 
