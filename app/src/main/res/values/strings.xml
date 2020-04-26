@@ -15,4 +15,6 @@
     <string name="dailyAssignmentButton">Today\'s\nTechnique</string>
     <string name="leaderboardButton">Leaderboard</string>
     <string name="libraryButton">Exercises and Drills</string>
+    <string name="waza">Waza</string>
+    <string name="exercises">Exercises</string>
 </resources>

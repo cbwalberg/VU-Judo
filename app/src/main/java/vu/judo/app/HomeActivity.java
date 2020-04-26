@@ -64,12 +64,10 @@ public class HomeActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         scores.add(document.getLong("score").intValue());
-                        Log.d(TAG, document.getString("firstName") + ": " + document.getLong("score"));
                     }
                     Collections.sort(scores, Collections.reverseOrder());
                     getUserInfo();
                 } else {
-                    Toast.makeText(HomeActivity.this, "Failed to find rank", Toast.LENGTH_SHORT).show();
                     getUserInfo();
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
