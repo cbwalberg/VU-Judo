@@ -47,7 +47,6 @@ public class LibraryActivity extends AppCompatActivity {
 
         layout = findViewById(R.id.libraryConstraintLayout);
         constraints = new ConstraintSet();
-        constraints.clone(layout);
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -72,7 +71,6 @@ public class LibraryActivity extends AppCompatActivity {
                         buildView(document.getString("name"));
                     }
 
-                    constraints.clone(layout);
                     constraints.connect(R.id.exercisesTitle, ConstraintSet.TOP, previousId, ConstraintSet.BOTTOM);
                     constraints.applyTo(layout);
 
@@ -102,8 +100,6 @@ public class LibraryActivity extends AppCompatActivity {
     }
 
     public void buildView(final String name) {
-        Log.d(TAG, "Name: " + name);
-
         tempView = new TextView(this);
         tempView.setId(View.generateViewId());
         tempView.setLayoutParams(layout.getLayoutParams());
@@ -116,7 +112,7 @@ public class LibraryActivity extends AppCompatActivity {
         constraints.clone(layout);
         constraints.connect(tempView.getId(), ConstraintSet.TOP, previousId, ConstraintSet.BOTTOM, dpToPx(30, this));
         constraints.connect(tempView.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 0);
-        constraints.connect(tempView.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, dpToPx(55, this));
+        constraints.connect(tempView.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, dpToPx(50, this));
         constraints.connect(tempView.getId(), ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0);
         constraints.setVerticalBias(tempView.getId(), 0.0f);
         constraints.applyTo(layout);

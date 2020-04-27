@@ -18,4 +18,5 @@ Sorting 2D Arrays for Leaderboard:
 https://stackoverflow.com/questions/15452429/java-arrays-sort-2d-array
 
 Dynamically create layout for Library:
-https://www.javacodegeeks.com/2012/09/android-dynamic-and-xml-layout.html
+https://www.zoftino.com/adding-views-&-constraints-to-android-constraint-layout-programmatically
+https://android.jlelse.eu/constraintlayout-in-the-limelight-6c22b54d9726#d67d
