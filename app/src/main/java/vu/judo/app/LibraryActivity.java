@@ -22,15 +22,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
-
 public class LibraryActivity extends AppCompatActivity {
 
     static final String TAG = "Library";
 
-    int imageResource, tempViewID, finalNameId, previousId;
+    int imageResource, previousId;
     String uri;
-    ArrayList<String> names;
 
     Drawable res;
 
@@ -48,7 +45,6 @@ public class LibraryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_library);
 
-        names =  new ArrayList<>();
         layout = findViewById(R.id.libraryConstraintLayout);
         constraints = new ConstraintSet();
         constraints.clone(layout);
@@ -71,18 +67,16 @@ public class LibraryActivity extends AppCompatActivity {
             @SuppressWarnings("ConstantConditions")
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    previousId = R.id.exampleWaza;
+                    previousId = R.id.wazaTitle;
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         buildView(document.getString("name"));
                     }
-                    //buildView("Test2");
-                    //buildView("Test3");
 
                     constraints.clone(layout);
                     constraints.connect(R.id.exercisesTitle, ConstraintSet.TOP, previousId, ConstraintSet.BOTTOM);
                     constraints.applyTo(layout);
 
-                    /*
+
                     exercises = db.collection("exercises");
                     exercises.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -99,7 +93,6 @@ public class LibraryActivity extends AppCompatActivity {
                             }
                         }
                     });
-                    */
                 } else {
                     Toast.makeText(LibraryActivity.this, "Failed to find waza list", Toast.LENGTH_LONG).show();
                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -108,44 +101,39 @@ public class LibraryActivity extends AppCompatActivity {
         });
     }
 
-    public void buildView(String name) {
-            Log.d(TAG, "Name: " + name);
+    public void buildView(final String name) {
+        Log.d(TAG, "Name: " + name);
 
-            tempView = new TextView(this);
-            tempView.setId(View.generateViewId());
-            tempView.setLayoutParams(layout.getLayoutParams());
+        tempView = new TextView(this);
+        tempView.setId(View.generateViewId());
+        tempView.setLayoutParams(layout.getLayoutParams());
 
-            tempView.setText(name);
-            tempView.setTextSize(24);
+        tempView.setText(name);
+        tempView.setTextSize(22);
 
-            layout.addView(tempView);
+        layout.addView(tempView);
 
-            constraints.clone(layout);
-            constraints.connect(tempView.getId(), ConstraintSet.TOP, previousId, ConstraintSet.BOTTOM, dpToPx(30, this));
-            constraints.connect(tempView.getId(), ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT);
-            constraints.connect(tempView.getId(), ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT);
-            constraints.connect(tempView.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM);
+        constraints.clone(layout);
+        constraints.connect(tempView.getId(), ConstraintSet.TOP, previousId, ConstraintSet.BOTTOM, dpToPx(30, this));
+        constraints.connect(tempView.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 0);
+        constraints.connect(tempView.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, dpToPx(55, this));
+        constraints.connect(tempView.getId(), ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0);
+        constraints.setVerticalBias(tempView.getId(), 0.0f);
+        constraints.applyTo(layout);
 
-            constraints.setHorizontalBias(tempView.getId(), (float)0.15);
-            constraints.setVerticalBias(tempView.getId(), (float)0.0);
+        /*
+        tempButton = new ImageButton(this);
+        tempButton.setImageDrawable(res);
+        tempButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("exercise", name);
+                startActivity(new Intent(LibraryActivity.this, LogActivity.class).putExtras(bundle));
+            }
+        });
+        */
 
-            constraints.applyTo(layout);
-
-            /*
-
-            tempButton = new ImageButton(this);
-            tempButton.setImageDrawable(res);
-            tempButton.setOnClickListener(new OnClickListener() {
-                public void onClick(View v) {
-                    Bundle bundle = new Bundle();
-                    bundle.putString("exercise", names.get(i));
-                    //startActivity(new Intent(this, LogActivity.class).putExtras(bundle));
-                }
-            });
-
-            */
-
-            previousId = tempView.getId();
+        previousId = tempView.getId();
     }
 
     public int dpToPx(int dp, Context context) {
