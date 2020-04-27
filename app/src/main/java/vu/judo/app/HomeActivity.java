@@ -31,7 +31,7 @@ public class HomeActivity extends AppCompatActivity {
 
     int score, rank;
     String email, firstName, rankText;
-    ArrayList<Integer> scores =  new ArrayList<>();
+    ArrayList<Integer> scores;
 
     TextView userNameDisplay, userScoreDisplay, userRankDisplay;
 
@@ -46,6 +46,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        scores =  new ArrayList<>();
         userNameDisplay = findViewById(R.id.homeUserName);
         userScoreDisplay = findViewById(R.id.homeUserScore);
         userRankDisplay = findViewById(R.id.homeUserRank);

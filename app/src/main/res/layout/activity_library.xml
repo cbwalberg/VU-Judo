@@ -29,23 +29,21 @@
             android:id="@+id/exampleWaza"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Test"
-            android:textSize="20sp"
             android:layout_marginTop="30dp"
+            android:text="Test"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/wazaTitle"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintHorizontal_bias="0.15" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <ImageButton
             android:id="@+id/exampleWazaAdddButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
-        android:contentDescription="Test"
-            android:onClick="logActivity"
             app:layout_constraintBottom_toBottomOf="@id/exampleWaza"
             app:layout_constraintHorizontal_bias="0.75"
             app:layout_constraintLeft_toRightOf="@id/exampleWaza"

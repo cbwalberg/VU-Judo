@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,13 +28,16 @@ public class LibraryActivity extends AppCompatActivity {
 
     static final String TAG = "Library";
 
-    String name;
+    int imageResource, tempViewID, finalNameId, previousId;
+    String uri;
     ArrayList<String> names;
-    ArrayList<Integer> nameIDs;
+
+    Drawable res;
 
     ConstraintLayout layout;
-    ConstraintSet constraints = new ConstraintSet();
+    ConstraintSet constraints;
     TextView tempView;
+    ImageButton tempButton;
 
     FirebaseFirestore db;
     CollectionReference waza, exercises;
@@ -42,7 +48,9 @@ public class LibraryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_library);
 
+        names =  new ArrayList<>();
         layout = findViewById(R.id.libraryConstraintLayout);
+        constraints = new ConstraintSet();
         constraints.clone(layout);
 
         try {
@@ -51,6 +59,11 @@ public class LibraryActivity extends AppCompatActivity {
             Log.e(TAG, "getSupportActionBar().setDisplayHomeAsUpEnabled:failure", e);
         }
 
+        //Gets the image used for the plus button for creating the dynamic view
+        uri = "@android:drawable/ic_input_add";
+        imageResource = getResources().getIdentifier(uri, null, getPackageName());
+        res = getResources().getDrawable(imageResource);
+
         db = FirebaseFirestore.getInstance();
         waza = db.collection("waza");
         waza.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -58,25 +71,27 @@ public class LibraryActivity extends AppCompatActivity {
             @SuppressWarnings("ConstantConditions")
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    previousId = R.id.exampleWaza;
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        name = document.getString("name");
-                        buildView(name);
+                        buildView(document.getString("name"));
                     }
+                    //buildView("Test2");
+                    //buildView("Test3");
 
-                    //Replace R.id.exampleWaza with final waza textViewId
-                    //...
-                    constraints.connect(R.id.exercisesTitle, ConstraintSet.TOP, R.id.exampleWaza, ConstraintSet.BOTTOM);
+                    constraints.clone(layout);
+                    constraints.connect(R.id.exercisesTitle, ConstraintSet.TOP, previousId, ConstraintSet.BOTTOM);
                     constraints.applyTo(layout);
 
+                    /*
                     exercises = db.collection("exercises");
                     exercises.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         @SuppressWarnings("ConstantConditions")
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
+                                previousId = R.id.exercisesTitle;
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                    name = document.getString("name");
-                                    buildView(name);
+                                    buildView(document.getString("name"));
                                 }
                             } else {
                                 Toast.makeText(LibraryActivity.this, "Failed to find exercise list", Toast.LENGTH_LONG).show();
@@ -84,6 +99,7 @@ public class LibraryActivity extends AppCompatActivity {
                             }
                         }
                     });
+                    */
                 } else {
                     Toast.makeText(LibraryActivity.this, "Failed to find waza list", Toast.LENGTH_LONG).show();
                     Log.d(TAG, "Error getting documents: ", task.getException());
@@ -92,28 +108,51 @@ public class LibraryActivity extends AppCompatActivity {
         });
     }
 
-    public void logActivity(View view) {
-        Bundle bundle = new Bundle();
-        bundle.putString("goto", "LibraryActivity");
+    public void buildView(String name) {
+            Log.d(TAG, "Name: " + name);
 
-        //IMPLEMENT
-        /*
-        for (int i=0; i<nameIDs.size(); i++) {
-            if (view.getId() == nameIDs.get(i)) {
-                bundle.putString("exercise", names.get(i));
-            }
-        }
+            tempView = new TextView(this);
+            tempView.setId(View.generateViewId());
+            tempView.setLayoutParams(layout.getLayoutParams());
 
-         */
+            tempView.setText(name);
+            tempView.setTextSize(24);
 
-        startActivity(new Intent(this, LogActivity.class).putExtras(bundle));
+            layout.addView(tempView);
+
+            constraints.clone(layout);
+            constraints.connect(tempView.getId(), ConstraintSet.TOP, previousId, ConstraintSet.BOTTOM, dpToPx(30, this));
+            constraints.connect(tempView.getId(), ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT);
+            constraints.connect(tempView.getId(), ConstraintSet.RIGHT, ConstraintSet.PARENT_ID, ConstraintSet.RIGHT);
+            constraints.connect(tempView.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM);
+
+            constraints.setHorizontalBias(tempView.getId(), (float)0.15);
+            constraints.setVerticalBias(tempView.getId(), (float)0.0);
+
+            constraints.applyTo(layout);
+
+            /*
+
+            tempButton = new ImageButton(this);
+            tempButton.setImageDrawable(res);
+            tempButton.setOnClickListener(new OnClickListener() {
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("exercise", names.get(i));
+                    //startActivity(new Intent(this, LogActivity.class).putExtras(bundle));
+                }
+            });
+
+            */
+
+            previousId = tempView.getId();
     }
 
-    //IMPLEMENT
-    public void buildView(String name) {
-        tempView = new TextView(this);
+    public int dpToPx(int dp, Context context) {
 
-        names.add(name);
-        nameIDs.add(tempView.getId());
+        float density = context.getResources()
+                .getDisplayMetrics()
+                .density;
+        return Math.round((float) dp * density);
     }
 }
