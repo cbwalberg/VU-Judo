@@ -20,3 +20,8 @@ https://stackoverflow.com/questions/15452429/java-arrays-sort-2d-array
 Dynamically create layout for Library:
 https://www.zoftino.com/adding-views-&-constraints-to-android-constraint-layout-programmatically
 https://android.jlelse.eu/constraintlayout-in-the-limelight-6c22b54d9726#d67d
+
+React Native Migration:
+https://reactnative.dev/
+https://reactnative.dev/docs/tutorial
+https://invertase.io/blog/getting-started-with-cloud-firestore-on-react-native 

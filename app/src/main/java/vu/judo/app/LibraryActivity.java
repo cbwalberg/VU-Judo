@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintSet;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,7 +27,7 @@ public class LibraryActivity extends AppCompatActivity {
 
     static final String TAG = "Library";
 
-    int imageResource, previousId;
+    int imageResource, previousViewId, previousButtonId;
     String uri;
 
     Drawable res;
@@ -66,14 +67,13 @@ public class LibraryActivity extends AppCompatActivity {
             @SuppressWarnings("ConstantConditions")
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    previousId = R.id.wazaTitle;
+                    previousViewId = R.id.wazaTitle;
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         buildView(document.getString("name"));
                     }
 
-                    constraints.connect(R.id.exercisesTitle, ConstraintSet.TOP, previousId, ConstraintSet.BOTTOM);
+                    constraints.connect(R.id.exercisesTitle, ConstraintSet.TOP, previousViewId, ConstraintSet.BOTTOM);
                     constraints.applyTo(layout);
-
 
                     exercises = db.collection("exercises");
                     exercises.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -81,7 +81,7 @@ public class LibraryActivity extends AppCompatActivity {
                         @SuppressWarnings("ConstantConditions")
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
-                                previousId = R.id.exercisesTitle;
+                                previousViewId = R.id.exercisesTitle;
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     buildView(document.getString("name"));
                                 }
@@ -102,38 +102,62 @@ public class LibraryActivity extends AppCompatActivity {
     public void buildView(final String name) {
         tempView = new TextView(this);
         tempView.setId(View.generateViewId());
-        tempView.setLayoutParams(layout.getLayoutParams());
-
+        tempView.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT));
         tempView.setText(name);
         tempView.setTextSize(22);
-
         layout.addView(tempView);
 
-        constraints.clone(layout);
-        constraints.connect(tempView.getId(), ConstraintSet.TOP, previousId, ConstraintSet.BOTTOM, dpToPx(30, this));
-        constraints.connect(tempView.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, 0);
-        constraints.connect(tempView.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START, dpToPx(50, this));
-        constraints.connect(tempView.getId(), ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END, 0);
-        constraints.setVerticalBias(tempView.getId(), 0.0f);
-        constraints.applyTo(layout);
-
-        /*
         tempButton = new ImageButton(this);
+        tempButton.setId(View.generateViewId());
+        tempButton.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT));
         tempButton.setImageDrawable(res);
+        tempButton.setBackgroundColor(Color.TRANSPARENT);
         tempButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("exercise", name);
+                bundle.putString("goto", "LibraryActivity");
                 startActivity(new Intent(LibraryActivity.this, LogActivity.class).putExtras(bundle));
             }
         });
-        */
+        layout.addView(tempButton);
 
-        previousId = tempView.getId();
+        constraints.clone(layout);
+        constraints.connect(tempView.getId(), ConstraintSet.TOP, previousViewId, ConstraintSet.BOTTOM, dpToPx(30, this));
+        constraints.connect(tempView.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM);
+        constraints.connect(tempView.getId(), ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END);
+        constraints.setVerticalBias(tempView.getId(), 0.0f);
+
+        constraints.connect(tempButton.getId(), ConstraintSet.TOP, tempView.getId(), ConstraintSet.TOP);
+        constraints.connect(tempButton.getId(), ConstraintSet.BOTTOM, tempView.getId(), ConstraintSet.BOTTOM);
+        constraints.connect(tempButton.getId(), ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END);
+        constraints.setVerticalBias(tempButton.getId(), 0.5f);
+
+        //First waza & exercise are constrained slightly differently than the rest
+        if (previousViewId == R.id.wazaTitle || previousViewId == R.id.exercisesTitle) {
+            constraints.connect(tempView.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START);
+            constraints.setHorizontalBias(tempView.getId(), 0.15f);
+            if (previousViewId == R.id.wazaTitle) {
+                constraints.connect(tempButton.getId(), ConstraintSet.START, previousViewId, ConstraintSet.END);
+                constraints.setHorizontalBias(tempButton.getId(), 0.5f);
+            } else {
+                constraints.connect(tempButton.getId(), ConstraintSet.START, previousButtonId, ConstraintSet.START);
+                constraints.setHorizontalBias(tempButton.getId(), 0.0f);
+            }
+        } else {
+            constraints.connect(tempView.getId(), ConstraintSet.START, previousViewId, ConstraintSet.START);
+            constraints.setHorizontalBias(tempView.getId(), 0.0f);
+
+            constraints.connect(tempButton.getId(), ConstraintSet.START, previousButtonId, ConstraintSet.START);
+            constraints.setHorizontalBias(tempButton.getId(), 0.0f);
+        }
+
+        constraints.applyTo(layout);
+        previousViewId = tempView.getId();
+        previousButtonId = tempButton.getId();
     }
 
     public int dpToPx(int dp, Context context) {
-
         float density = context.getResources()
                 .getDisplayMetrics()
                 .density;
