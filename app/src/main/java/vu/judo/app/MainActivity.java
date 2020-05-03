@@ -38,6 +38,20 @@ public class MainActivity extends AppCompatActivity {
         emailAddressCapture = findViewById(R.id.logInEmailAddress);
         passwordCapture = findViewById(R.id.logInPassword);
         logInButton = findViewById(R.id.logInButton);
+
+        emailAddressCapture.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                emailAddressCapture.setSelection(0);
+            }
+        });
+
+        passwordCapture.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                passwordCapture.setSelection(0);
+            }
+        });
     }
 
     @Override

@@ -14,7 +14,10 @@
     <string name="rank">Rank</string>
     <string name="dailyAssignmentButton">Today\'s\nTechnique</string>
     <string name="leaderboardButton">Leaderboard</string>
-    <string name="libraryButton">Exercises and Drills</string>
+    <string name="libraryButton">Waza and Exercises</string>
     <string name="waza">Waza</string>
     <string name="exercises">Exercises</string>
+    <string name="logReps">Number of Reps</string>
+    <string name="logDateSelect">Select Date</string>
+
 </resources>

@@ -30,7 +30,7 @@ public class HomeActivity extends AppCompatActivity {
     static final String TAG = "Home";
 
     int score, rank;
-    String email, firstName, rankText;
+    String email, firstName, rankText, dailyWaza;
     ArrayList<Integer> scores;
 
     TextView userNameDisplay, userScoreDisplay, userRankDisplay;
@@ -39,7 +39,7 @@ public class HomeActivity extends AppCompatActivity {
     FirebaseUser userAuth;
 
     DocumentReference userDoc;
-    CollectionReference users;
+    CollectionReference users, waza;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +74,30 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
+
+        waza = db.collection("waza");
+        waza.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            @SuppressWarnings("ConstantConditions")
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        if (document.getBoolean("dailyAssignment")) {
+                            dailyWaza = document.getString("name");
+                            break;
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
     }
 
     public void dailyAssignment(View view) {
         Bundle thisAssignment = new Bundle();
         thisAssignment.putString("goto", "HomeActivity");
-        thisAssignment.putString("waza", "TESTING");
+        thisAssignment.putString("exercise", dailyWaza);
         startActivity(new Intent(this, LogActivity.class).putExtras(thisAssignment));
     }
 
