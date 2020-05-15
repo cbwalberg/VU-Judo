@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">VU Judo</string>
+    <string name="emailAddressPrompt">Email Address</string>
+    <string name="passwordPrompt">Password</string>
+    <string name="logInButton">Log In</string>
+    <string name="signUpButton">Sign Up</string>
+    <string name="forgotPasswordButton">Forgot Password?</string>
+    <string name="firstNamePrompt">First Name</string>
+    <string name="lastNamePrompt">Last Name</string>
+    <string name="confirmPasswordPrompt">Re-enter Password</string>
+    <string name="submit">Submit</string>
+    <string name="confirm">Confirm</string>
+    <string name="score">Score</string>
+    <string name="rank">Rank</string>
+    <string name="dailyAssignmentButton">Today\'s\nTechnique</string>
+    <string name="leaderboardButton">Leaderboard</string>
+    <string name="libraryButton">Waza and Exercises</string>
+    <string name="waza">Waza</string>
+    <string name="exercises">Exercises</string>
+    <string name="logReps">Number of Reps</string>
+    <string name="logDateSelect">Select Date</string>
+
+</resources>
