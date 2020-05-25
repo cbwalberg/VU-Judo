@@ -98,6 +98,7 @@ public class HomeActivity extends AppCompatActivity {
         Bundle thisAssignment = new Bundle();
         thisAssignment.putString("goto", "HomeActivity");
         thisAssignment.putString("exercise", dailyWaza);
+        thisAssignment.putString("type", "waza");
         startActivity(new Intent(this, LogActivity.class).putExtras(thisAssignment));
     }
 

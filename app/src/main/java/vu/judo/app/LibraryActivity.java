@@ -69,7 +69,7 @@ public class LibraryActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     previousViewId = R.id.wazaTitle;
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        buildView(document.getString("name"));
+                        buildView(document.getString("name"), "waza");
                     }
 
                     constraints.connect(R.id.exercisesTitle, ConstraintSet.TOP, previousViewId, ConstraintSet.BOTTOM);
@@ -83,7 +83,7 @@ public class LibraryActivity extends AppCompatActivity {
                             if (task.isSuccessful()) {
                                 previousViewId = R.id.exercisesTitle;
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                    buildView(document.getString("name"));
+                                    buildView(document.getString("name"), "exercise");
                                 }
                             } else {
                                 Toast.makeText(LibraryActivity.this, "Failed to find exercise list", Toast.LENGTH_LONG).show();
@@ -99,7 +99,7 @@ public class LibraryActivity extends AppCompatActivity {
         });
     }
 
-    public void buildView(final String name) {
+    public void buildView(final String name, final String type) {
         tempView = new TextView(this);
         tempView.setId(View.generateViewId());
         tempView.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT));
@@ -116,6 +116,7 @@ public class LibraryActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putString("exercise", name);
+                bundle.putString("type", type);
                 bundle.putString("goto", "LibraryActivity");
                 startActivity(new Intent(LibraryActivity.this, LogActivity.class).putExtras(bundle));
             }

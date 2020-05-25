@@ -22,17 +22,18 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Map;
 
 public class LogActivity extends AppCompatActivity {
 
     static final String TAG = "Log";
 
-    int reps, wazaModifier = 50, exerciseModifier = 10, selectedDay, selectedMonth, selectedYear;
+    boolean waza, isDateSelected;
+    int reps, wazaMultiplier, exerciseMultiplier, thisMultiplier, selectedDay, selectedMonth, selectedYear;
     String exercise, selectedDate, userEmail;
 
     TextView exerciseView, dateView;
@@ -41,9 +42,8 @@ public class LogActivity extends AppCompatActivity {
     Calendar calendar;
 
     FirebaseFirestore db;
-    DocumentReference userDoc, exerciseDoc;
-    CollectionReference dateCollection;
-
+    DocumentReference userDoc, dateDoc, scoreMultipliers;
+    CollectionReference practiceLog;
 
     @Override @SuppressWarnings("ConstantConditions")
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,9 @@ public class LogActivity extends AppCompatActivity {
         } catch (NullPointerException e) {
             Log.e(TAG, "getSupportActionBar().setDisplayHomeAsUpEnabled:failure", e);
         }
+
+        db = FirebaseFirestore.getInstance();
+
         exerciseView = findViewById(R.id.logExercise);
         repsInput = findViewById(R.id.logReps);
         dateView = findViewById(R.id.logDate);
@@ -62,11 +65,32 @@ public class LogActivity extends AppCompatActivity {
         exercise = getIntent().getExtras().getString("exercise");
         exerciseView.setText(exercise);
 
+        //Get the type of exercise passed to this activity from calling activity. Boolean "waza" true for waza, false for workout exercises
+        waza = getIntent().getExtras().getString("type").equals("waza");
+
         //Set initial date to Today
         calendar = Calendar.getInstance();
         selectedDay = calendar.get(Calendar.DAY_OF_MONTH);
         selectedMonth = calendar.get(Calendar.MONTH);
         selectedYear = calendar.get(Calendar.YEAR);
+
+        //Get wazaMultiplier and exerciseMultiplier values from config file in db
+        scoreMultipliers = db.collection("config").document("Score Multipliers");
+        scoreMultipliers.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override @SuppressWarnings("ConstantConditions")
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot multipliersDoc = task.getResult();
+                    wazaMultiplier = multipliersDoc.getLong("Waza Multiplier").intValue();
+                    exerciseMultiplier = multipliersDoc.getLong("Exercise Multiplier").intValue();
+                } else {
+                    wazaMultiplier = 50; exerciseMultiplier = 10;
+                    Log.d(TAG, "Failed to find score multiplier data in DB ", task.getException());
+                }
+                //Set this specific multiplier based on whether passed exercise is waza or (workout) exercise
+                thisMultiplier = waza ? wazaMultiplier : exerciseMultiplier;
+            }
+        });
 
         //When the dateView text is clicked, show a dialog allowing users to select a date
         dateView.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +152,7 @@ public class LogActivity extends AppCompatActivity {
                         selectedYear, selectedMonth, selectedDay);
                 datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 datePickerDialog.show();
+                isDateSelected = true;
             }
         });
     }
@@ -136,55 +161,64 @@ public class LogActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        isDateSelected = false;
+
         //Clear any existing text
         repsInput.getText().clear();
     }
 
     public void save(View view) {
-        // Find current user, check if Practice Log collection already exists, if so add to it, if not, create collection within user document named Practice Log
-        // Add new document to Practice Log with name "selectedDate". Fields in selectedDate document are names of waza/exercises, values of the fields are the number of reps
-        db = FirebaseFirestore.getInstance();
-
-        userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
         reps = Integer.parseInt(repsInput.getText().toString());
 
-        userDoc = db.collection("users").document(userEmail);
-        userDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override @SuppressWarnings("ConstantConditions")
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot userDocument = task.getResult();
-                    if (userDocument.exists()) {
-                        dateCollection = db.collection("Practice Log");
-                        dateCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+        //Make sure reps and date have been entered/selected
+        if (isDateSelected && reps != 0) {
+            // Find current user, add to their score.
+            // Then check if Practice Log collection already exists in current user doc, if so add to it, if not, create collection within user document named Practice Log
+            // Check for document within Practice Log with name "selectedDate", if it exists edit it, if not create it
+            // Check if field "exercise" exists in selectedDate document, if so add to it, if not create it (Fields in selectedDate document are names of waza/exercises, values of the fields are the number of reps)
+
+            userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+            userDoc = db.collection("users").document(userEmail);
+            // This will save the document reference if it exists, and create and save it if either the document OR the colleciton don't exist
+            dateDoc = userDoc.collection("Practice Log").document(selectedDate);
+
+            userDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override @SuppressWarnings("ConstantConditions")
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful() && task.getResult().exists()) {
+                        task.getResult().getReference().update("score", task.getResult().getLong("score").intValue() + (reps * thisMultiplier));
+
+                        dateDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override @SuppressWarnings("ConstantConditions")
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.isSuccessful()) {
-                                    if (task.getResult().size() > 0) { //Collection of name "Practice Log" exists, check for field "exercise" in document "selectedDate", if it exists, read its value
-                                        for (QueryDocumentSnapshot dateDocument : task.getResult()) {
-                                            if (dateDocument.getString("date").equals(selectedDate)) {
-                                                //...
-                                            }
-                                        }
-                                    } else { //No collection of name "Practice Log" exists, create a new one
-                                        //...
+                                    DocumentSnapshot documentSnapshot = task.getResult();
+                                    if (documentSnapshot.contains(exercise)) {
+                                        //selectedDate doc contains exercise, update
+                                        dateDoc.update(exercise, documentSnapshot.getLong(exercise).intValue() + reps);
+                                    } else {
+                                        //selectedDate doc does not contain exercise, set value
+                                        Map<String, Object> exerciseInfo = new HashMap<>();
+                                        exerciseInfo.put(exercise, reps);
+                                        dateDoc.set(exerciseInfo, SetOptions.merge());
                                     }
+                                    Toast.makeText(LogActivity.this, "" + reps + " reps of " + exercise + " saved for " + selectedDate, Toast.LENGTH_LONG).show();
+                                    startActivity(new Intent(LogActivity.this, HomeActivity.class));
                                 } else {
-                                    Toast.makeText(LogActivity.this, "Failed to query database. Please restart the application", Toast.LENGTH_LONG).show();
-                                    Log.d(TAG, "get failed with ", task.getException());
+                                    Toast.makeText(LogActivity.this, "Could not find reference to document", Toast.LENGTH_LONG).show();
+                                    Log.d(TAG, "Failed to find document reference ", task.getException());
                                 }
                             }
                         });
                     } else {
                         Toast.makeText(LogActivity.this, "Failed to find user information. Please restart the application", Toast.LENGTH_LONG).show();
-                        Log.d(TAG, "No such document");
+                        Log.d(TAG, "Could not find active user info in DB");
                     }
-                } else {
-                    Toast.makeText(LogActivity.this, "Failed to find user information. Please restart the application", Toast.LENGTH_LONG).show();
-                    Log.d(TAG, "get failed with ", task.getException());
                 }
-            }
-        });
+            });
+        } else {
+            Toast.makeText(LogActivity.this, "Please enter number of reps and select a date to save", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
