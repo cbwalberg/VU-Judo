@@ -32,7 +32,7 @@ public class LogActivity extends AppCompatActivity {
 
     static final String TAG = "Log";
 
-    boolean waza, isDateSelected;
+    boolean waza;
     int reps, wazaMultiplier, exerciseMultiplier, thisMultiplier, selectedDay, selectedMonth, selectedYear;
     String exercise, selectedDate, userEmail;
 
@@ -43,7 +43,6 @@ public class LogActivity extends AppCompatActivity {
 
     FirebaseFirestore db;
     DocumentReference userDoc, dateDoc, scoreMultipliers;
-    CollectionReference practiceLog;
 
     @Override @SuppressWarnings("ConstantConditions")
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,7 +151,6 @@ public class LogActivity extends AppCompatActivity {
                         selectedYear, selectedMonth, selectedDay);
                 datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 datePickerDialog.show();
-                isDateSelected = true;
             }
         });
     }
@@ -161,17 +159,16 @@ public class LogActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        isDateSelected = false;
-
         //Clear any existing text
         repsInput.getText().clear();
+        selectedDate = "";
     }
 
     public void save(View view) {
-        reps = Integer.parseInt(repsInput.getText().toString());
+        reps = repsInput.getText().toString().equals("") ? 0 : Integer.parseInt(repsInput.getText().toString());
 
         //Make sure reps and date have been entered/selected
-        if (isDateSelected && reps != 0) {
+        if (!selectedDate.equals("") && reps > 0) {
             // Find current user, add to their score.
             // Then check if Practice Log collection already exists in current user doc, if so add to it, if not, create collection within user document named Practice Log
             // Check for document within Practice Log with name "selectedDate", if it exists edit it, if not create it

@@ -830,6 +830,8 @@ id info
 id invisible
 id italic
 id leaderboardButton
+id leaderboardList
+id leaderboardTitle
 id left
 id libraryButton
 id libraryConstraintLayout
@@ -924,6 +926,8 @@ id title
 id titleDividerNoCustom
 id title_template
 id top
+id top3List
+id top3Title
 id topPanel
 id unchecked
 id uniform
@@ -1056,6 +1060,7 @@ string google_app_id
 string google_crash_reporting_api_key
 string google_storage_bucket
 string lastNamePrompt
+string leaderboard
 string leaderboardButton
 string libraryButton
 string logDateSelect
@@ -1069,6 +1074,7 @@ string search_menu_title
 string signUpButton
 string status_bar_notification_info_overflow
 string submit
+string top3
 string waza
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
