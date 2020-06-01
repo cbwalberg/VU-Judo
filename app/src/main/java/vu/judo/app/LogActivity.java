@@ -1,6 +1,5 @@
 package vu.judo.app;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -10,15 +9,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -75,83 +70,74 @@ public class LogActivity extends AppCompatActivity {
 
         //Get wazaMultiplier and exerciseMultiplier values from config file in db
         scoreMultipliers = db.collection("config").document("Score Multipliers");
-        scoreMultipliers.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override @SuppressWarnings("ConstantConditions")
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot multipliersDoc = task.getResult();
-                    wazaMultiplier = multipliersDoc.getLong("Waza Multiplier").intValue();
-                    exerciseMultiplier = multipliersDoc.getLong("Exercise Multiplier").intValue();
-                } else {
-                    wazaMultiplier = 50; exerciseMultiplier = 10;
-                    Log.d(TAG, "Failed to find score multiplier data in DB ", task.getException());
-                }
-                //Set this specific multiplier based on whether passed exercise is waza or (workout) exercise
-                thisMultiplier = waza ? wazaMultiplier : exerciseMultiplier;
+        scoreMultipliers.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot multipliersDoc = task.getResult();
+                wazaMultiplier = multipliersDoc.getLong("Waza Multiplier").intValue();
+                exerciseMultiplier = multipliersDoc.getLong("Exercise Multiplier").intValue();
+            } else {
+                wazaMultiplier = 50; exerciseMultiplier = 10;
+                Log.d(TAG, "Failed to find score multiplier data in DB ", task.getException());
             }
+            //Set this specific multiplier based on whether passed exercise is waza or (workout) exercise
+            thisMultiplier = waza ? wazaMultiplier : exerciseMultiplier;
         });
 
         //When the dateView text is clicked, show a dialog allowing users to select a date
-        dateView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        LogActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                selectedDay = day;
-                                selectedMonth = month;
-                                selectedYear = year;
-                                String monthText = "";
-                                switch (month) {
-                                    case 0:
-                                        monthText = "JAN";
-                                        break;
-                                    case 1:
-                                        monthText = "FEB";
-                                        break;
-                                    case 2:
-                                        monthText = "MAR";
-                                        break;
-                                    case 3:
-                                        monthText = "APR";
-                                        break;
-                                    case 4:
-                                        monthText = "MAY";
-                                        break;
-                                    case 5:
-                                        monthText = "JUN";
-                                        break;
-                                    case 6:
-                                        monthText = "JUL";
-                                        break;
-                                    case 7:
-                                        monthText = "AUG";
-                                        break;
-                                    case 8:
-                                        monthText = "SEP";
-                                        break;
-                                    case 9:
-                                        monthText = "OCT";
-                                        break;
-                                    case 10:
-                                        monthText = "NOV";
-                                        break;
-                                    case 11:
-                                        monthText = "DEC";
-                                        break;
-                                }
-                                String date = monthText + " " + day + " " + year;
-                                dateView.setText(date);
-                                selectedDate = date;
-                            }
-                        },
-                        selectedYear, selectedMonth, selectedDay);
-                datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                datePickerDialog.show();
-            }
+        dateView.setOnClickListener(view -> {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    LogActivity.this,
+                    android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                    (datePicker, year, month, day) -> {
+                        selectedDay = day;
+                        selectedMonth = month;
+                        selectedYear = year;
+                        String monthText = "";
+                        switch (month) {
+                            case 0:
+                                monthText = "JAN";
+                                break;
+                            case 1:
+                                monthText = "FEB";
+                                break;
+                            case 2:
+                                monthText = "MAR";
+                                break;
+                            case 3:
+                                monthText = "APR";
+                                break;
+                            case 4:
+                                monthText = "MAY";
+                                break;
+                            case 5:
+                                monthText = "JUN";
+                                break;
+                            case 6:
+                                monthText = "JUL";
+                                break;
+                            case 7:
+                                monthText = "AUG";
+                                break;
+                            case 8:
+                                monthText = "SEP";
+                                break;
+                            case 9:
+                                monthText = "OCT";
+                                break;
+                            case 10:
+                                monthText = "NOV";
+                                break;
+                            case 11:
+                                monthText = "DEC";
+                                break;
+                        }
+                        String date = monthText + " " + day + " " + year;
+                        dateView.setText(date);
+                        selectedDate = date;
+                    },
+                    selectedYear, selectedMonth, selectedDay);
+            datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            datePickerDialog.show();
         });
     }
 
@@ -176,41 +162,36 @@ public class LogActivity extends AppCompatActivity {
 
             userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
             userDoc = db.collection("users").document(userEmail);
+
             // This will save the document reference if it exists, and create and save it if either the document OR the colleciton don't exist
             dateDoc = userDoc.collection("Practice Log").document(selectedDate);
 
-            userDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override @SuppressWarnings("ConstantConditions")
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful() && task.getResult().exists()) {
-                        task.getResult().getReference().update("score", task.getResult().getLong("score").intValue() + (reps * thisMultiplier));
+            userDoc.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful() && task.getResult().exists()) {
+                    task.getResult().getReference().update("score", task.getResult().getLong("score").intValue() + (reps * thisMultiplier));
 
-                        dateDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override @SuppressWarnings("ConstantConditions")
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    DocumentSnapshot documentSnapshot = task.getResult();
-                                    if (documentSnapshot.contains(exercise)) {
-                                        //selectedDate doc contains exercise, update
-                                        dateDoc.update(exercise, documentSnapshot.getLong(exercise).intValue() + reps);
-                                    } else {
-                                        //selectedDate doc does not contain exercise, set value
-                                        Map<String, Object> exerciseInfo = new HashMap<>();
-                                        exerciseInfo.put(exercise, reps);
-                                        dateDoc.set(exerciseInfo, SetOptions.merge());
-                                    }
-                                    Toast.makeText(LogActivity.this, "" + reps + " reps of " + exercise + " saved for " + selectedDate, Toast.LENGTH_LONG).show();
-                                    startActivity(new Intent(LogActivity.this, HomeActivity.class));
-                                } else {
-                                    Toast.makeText(LogActivity.this, "Could not find reference to document", Toast.LENGTH_LONG).show();
-                                    Log.d(TAG, "Failed to find document reference ", task.getException());
-                                }
+                    dateDoc.get().addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
+                            DocumentSnapshot documentSnapshot = task1.getResult();
+                            if (documentSnapshot.contains(exercise)) {
+                                //selectedDate doc contains exercise, update
+                                dateDoc.update(exercise, documentSnapshot.getLong(exercise).intValue() + reps);
+                            } else {
+                                //selectedDate doc does not contain exercise, set value
+                                Map<String, Object> exerciseInfo = new HashMap<>();
+                                exerciseInfo.put(exercise, reps);
+                                dateDoc.set(exerciseInfo, SetOptions.merge());
                             }
-                        });
-                    } else {
-                        Toast.makeText(LogActivity.this, "Failed to find user information. Please restart the application", Toast.LENGTH_LONG).show();
-                        Log.d(TAG, "Could not find active user info in DB");
-                    }
+                            Toast.makeText(LogActivity.this, "" + reps + " reps of " + exercise + " saved for " + selectedDate, Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(LogActivity.this, HomeActivity.class));
+                        } else {
+                            Toast.makeText(LogActivity.this, "Could not find reference to document", Toast.LENGTH_LONG).show();
+                            Log.d(TAG, "Failed to find document reference ", task1.getException());
+                        }
+                    });
+                } else {
+                    Toast.makeText(LogActivity.this, "Failed to find user information. Please restart the application", Toast.LENGTH_LONG).show();
+                    Log.d(TAG, "Could not find active user info in DB");
                 }
             });
         } else {

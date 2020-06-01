@@ -8,11 +8,7 @@ public class User {
     private  String lname;
     private int score;
 
-    //Constructors
-    public User(String email) {
-        this.email = email;
-    }
-
+    //Constructor
     public User(String email, String firstName, String lastName, int score) {
         this.email = email;
         this.fname = firstName;
@@ -57,6 +53,6 @@ public class User {
     //toString
     @Override
     public String toString() {
-        return email + " " + fname + " " + lname + " " + score;
+        return "Email: " + email + "\nFirst Name: " + fname + "\nLast Name: " + lname + "\n Score: " + score;
     }
 }

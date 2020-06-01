@@ -1,6 +1,5 @@
 package vu.judo.app;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
@@ -16,12 +15,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 public class LibraryActivity extends AppCompatActivity {
 
@@ -62,39 +58,31 @@ public class LibraryActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         waza = db.collection("waza");
-        waza.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            @SuppressWarnings("ConstantConditions")
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    previousViewId = R.id.wazaTitle;
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        buildView(document.getString("name"), "waza");
-                    }
-
-                    constraints.connect(R.id.exercisesTitle, ConstraintSet.TOP, previousViewId, ConstraintSet.BOTTOM);
-                    constraints.applyTo(layout);
-
-                    exercises = db.collection("exercises");
-                    exercises.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        @SuppressWarnings("ConstantConditions")
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                previousViewId = R.id.exercisesTitle;
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    buildView(document.getString("name"), "exercise");
-                                }
-                            } else {
-                                Toast.makeText(LibraryActivity.this, "Failed to find exercise list", Toast.LENGTH_LONG).show();
-                                Log.d(TAG, "Error getting documents: ", task.getException());
-                            }
-                        }
-                    });
-                } else {
-                    Toast.makeText(LibraryActivity.this, "Failed to find waza list", Toast.LENGTH_LONG).show();
-                    Log.d(TAG, "Error getting documents: ", task.getException());
+        waza.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                previousViewId = R.id.wazaTitle;
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    buildView(document.getString("name"), "waza");
                 }
+
+                constraints.connect(R.id.exercisesTitle, ConstraintSet.TOP, previousViewId, ConstraintSet.BOTTOM);
+                constraints.applyTo(layout);
+
+                exercises = db.collection("exercises");
+                exercises.get().addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        previousViewId = R.id.exercisesTitle;
+                        for (QueryDocumentSnapshot document : task1.getResult()) {
+                            buildView(document.getString("name"), "exercise");
+                        }
+                    } else {
+                        Toast.makeText(LibraryActivity.this, "Failed to find exercise list", Toast.LENGTH_LONG).show();
+                        Log.d(TAG, "Error getting documents: ", task1.getException());
+                    }
+                });
+            } else {
+                Toast.makeText(LibraryActivity.this, "Failed to find waza list", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "Error getting documents: ", task.getException());
             }
         });
     }
@@ -112,14 +100,12 @@ public class LibraryActivity extends AppCompatActivity {
         tempButton.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT));
         tempButton.setImageDrawable(res);
         tempButton.setBackgroundColor(Color.TRANSPARENT);
-        tempButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putString("exercise", name);
-                bundle.putString("type", type);
-                bundle.putString("goto", "LibraryActivity");
-                startActivity(new Intent(LibraryActivity.this, LogActivity.class).putExtras(bundle));
-            }
+        tempButton.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("exercise", name);
+            bundle.putString("type", type);
+            bundle.putString("goto", "LibraryActivity");
+            startActivity(new Intent(LibraryActivity.this, LogActivity.class).putExtras(bundle));
         });
         layout.addView(tempButton);
 

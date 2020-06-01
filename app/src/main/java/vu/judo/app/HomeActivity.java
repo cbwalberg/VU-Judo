@@ -1,6 +1,5 @@
 package vu.judo.app;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,8 +9,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -19,7 +16,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,38 +54,30 @@ public class HomeActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         users = db.collection("users");
-        users.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            @SuppressWarnings("ConstantConditions")
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        scores.add(document.getLong("score").intValue());
-                    }
-                    Collections.sort(scores, Collections.reverseOrder());
-                    getUserInfo();
-                } else {
-                    getUserInfo();
-                    Log.d(TAG, "Error getting documents: ", task.getException());
+        users.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    scores.add(document.getLong("score").intValue());
                 }
+                Collections.sort(scores, Collections.reverseOrder());
+                getUserInfo();
+            } else {
+                getUserInfo();
+                Log.d(TAG, "Error getting documents: ", task.getException());
             }
         });
 
         waza = db.collection("waza");
-        waza.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            @SuppressWarnings("ConstantConditions")
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        if (document.getBoolean("dailyAssignment")) {
-                            dailyWaza = document.getString("name");
-                            break;
-                        }
+        waza.get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    if (document.getBoolean("dailyAssignment")) {
+                        dailyWaza = document.getString("name");
+                        break;
                     }
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
                 }
+            } else {
+                Log.d(TAG, "Error getting documents: ", task.getException());
             }
         });
     }
@@ -113,56 +101,51 @@ public class HomeActivity extends AppCompatActivity {
     private void getUserInfo() {
         //Get user info from DB
         userDoc = db.collection("users").document(email);
-        userDoc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            @SuppressWarnings("ConstantConditions")
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        firstName = document.getString("firstName");
-                        score =  document.getLong("score").intValue();
+        userDoc.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    firstName = document.getString("firstName");
+                    score =  document.getLong("score").intValue();
 
-                        //Calculate rank based on score
-                        if (!scores.isEmpty()) {
-                            for (int i=0; i<scores.size(); i++) {
-                                if (score == scores.get(i)) {
-                                    rank = i+1;
-                                    break;
-                                }
+                    //Calculate rank based on score
+                    if (!scores.isEmpty()) {
+                        for (int i=0; i<scores.size(); i++) {
+                            if (score == scores.get(i)) {
+                                rank = i+1;
+                                break;
                             }
-
-                            int lastRankDigit = rank % 10;
-                            switch (lastRankDigit) {
-                                case 1:
-                                    rankText = "" + rank + "st";
-                                    break;
-                                case 2:
-                                    rankText = "" + rank + "nd";
-                                    break;
-                                case 3:
-                                    rankText = "" + rank + "rd";
-                                    break;
-                                default:
-                                    rankText = "" + rank + "th";
-                                    break;
-                            }
-                        } else {
-                            rankText = "ERROR";
                         }
 
-                        userNameDisplay.setText(firstName);
-                        userScoreDisplay.setText(String.format(Locale.getDefault(), "%d", score));
-                        userRankDisplay.setText(rankText);
-
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        switch (rank % 10) {
+                            case 1:
+                                rankText = "" + rank + "st";
+                                break;
+                            case 2:
+                                rankText = "" + rank + "nd";
+                                break;
+                            case 3:
+                                rankText = "" + rank + "rd";
+                                break;
+                            default:
+                                rankText = "" + rank + "th";
+                                break;
+                        }
                     } else {
-                        Log.d(TAG, "No such document");
+                        rankText = "1st";
                     }
+
+                    userNameDisplay.setText(firstName);
+                    userScoreDisplay.setText(String.valueOf(score));
+                    userRankDisplay.setText(rankText);
+
+                    Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                 } else {
-                    Toast.makeText(HomeActivity.this, "Failed to find user information. Please restart the application", Toast.LENGTH_LONG).show();
-                    Log.d(TAG, "get failed with ", task.getException());
+                    Log.d(TAG, "No such document");
                 }
+            } else {
+                Toast.makeText(HomeActivity.this, "Failed to find user information. Please restart the application", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "get failed with ", task.getException());
             }
         });
     }
