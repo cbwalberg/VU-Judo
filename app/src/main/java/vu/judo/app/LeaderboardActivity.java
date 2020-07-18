@@ -66,19 +66,20 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         lastWeekLeaderboard = db.collection("leaderboard").document(lastWeekLeaderboardName);
         users = db.collection("users");
+
+        //Top 3 only needs to be built once since it doesn't change moment to moment
+        buildTop3();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        //Build leaderboards each time activity is started
-        buildLeaderboards();
-        //buildTop3();
+        //Build leaderboard each time activity is started
+        buildLeaderboard();
     }
 
-    public void buildLeaderboards() {
-
+    public void buildTop3() {
         lastWeekLeaderboard.get().addOnSuccessListener(documentSnapshot -> {
             //Save top 3 scorers from leaderboard into top3List
             //...
@@ -90,7 +91,9 @@ public class LeaderboardActivity extends AppCompatActivity {
             Toast.makeText(LeaderboardActivity.this, "Failed to find Last Week's top 3", Toast.LENGTH_LONG).show();
             Log.d(TAG, "Error connecting to lastWeekLeaderboard document from database ", e);
         });
+    }
 
+    public void buildLeaderboard() {
         users.get().addOnSuccessListener(queryDocumentSnapshots -> {
             //Gather all users into leaderboardList
             for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
