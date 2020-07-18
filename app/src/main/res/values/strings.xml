@@ -20,6 +20,8 @@
     <string name="logReps">Number of Reps</string>
     <string name="logDateSelect">Select Date</string>
     <string name="leaderboard">This Week\'s Leaderboard</string>
+    <string name="leaderboardRankHeader">Rank</string>
+    <string name="leaderboardNameHeader">Name</string>
+    <string name="leaderboardScoreHeader">Score</string>
     <string name="top3">Last Week\'s Top 3</string>
-
 </resources>

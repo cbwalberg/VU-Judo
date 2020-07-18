@@ -847,7 +847,11 @@ id invisible
 id italic
 id item_touch_helper_previous_elevation
 id leaderboardButton
+id leaderboardHeaders
 id leaderboardList
+id leaderboardNameHeader
+id leaderboardRankHeader
+id leaderboardScoreHeader
 id leaderboardTitle
 id left
 id libraryButton
@@ -943,7 +947,11 @@ id title
 id titleDividerNoCustom
 id title_template
 id top
+id top3Headers
 id top3List
+id top3NameHeader
+id top3RankHeader
+id top3ScoreHeader
 id top3Title
 id topPanel
 id unchecked
@@ -1083,6 +1091,9 @@ string google_storage_bucket
 string lastNamePrompt
 string leaderboard
 string leaderboardButton
+string leaderboardNameHeader
+string leaderboardRankHeader
+string leaderboardScoreHeader
 string libraryButton
 string logDateSelect
 string logInButton

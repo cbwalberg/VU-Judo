@@ -28,8 +28,8 @@ public class LeaderboardActivity extends AppCompatActivity {
     ListView top3ListView, leaderboardListView;
 
     FirebaseFirestore db;
-    CollectionReference users;
     DocumentReference lastWeekLeaderboard;
+    CollectionReference users;
 
     @Override
     @SuppressWarnings("ConstantConditions")
@@ -54,15 +54,15 @@ public class LeaderboardActivity extends AppCompatActivity {
         Calendar lastSunday = Calendar.getInstance();
 
         //If today is Sunday, get the Sunday before, otherwise get the most recent Sunday
-        //TEST ON MONDAY
+        //TEST EVERYDAY OF THE WEEK
         if (lastSunday.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
             lastSunday.add(Calendar.DAY_OF_WEEK, lastSunday.get(Calendar.DAY_OF_WEEK)-8);
         } else {
-            lastSunday.add(Calendar.DAY_OF_WEEK, lastSunday.get(Calendar.DAY_OF_WEEK)-Calendar.SUNDAY);
+            lastSunday.add(Calendar.DAY_OF_WEEK, -(lastSunday.get(Calendar.DAY_OF_WEEK)-Calendar.SUNDAY));
         }
 
         lastWeekLeaderboardName = "Week of " + (lastSunday.get(Calendar.MONTH)+1) + "-" + lastSunday.get(Calendar.DATE) + "-" + lastSunday.get(Calendar.YEAR);
-        //Toast.makeText(LeaderboardActivity.this, lastWeekLeaderboardName, Toast.LENGTH_SHORT).show();
+        Toast.makeText(LeaderboardActivity.this, lastWeekLeaderboardName, Toast.LENGTH_SHORT).show();
 
         lastWeekLeaderboard = db.collection("leaderboard").document(lastWeekLeaderboardName);
         users = db.collection("users");
@@ -74,6 +74,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
         //Build leaderboards each time activity is started
         buildLeaderboards();
+        //buildTop3();
     }
 
     public void buildLeaderboards() {
