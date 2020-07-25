@@ -54,7 +54,6 @@ public class LeaderboardActivity extends AppCompatActivity {
         Calendar lastSunday = Calendar.getInstance();
 
         //If today is Sunday, get the Sunday before, otherwise get the most recent Sunday
-        //TEST EVERYDAY OF THE WEEK
         if (lastSunday.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
             lastSunday.add(Calendar.DAY_OF_WEEK, lastSunday.get(Calendar.DAY_OF_WEEK)-8);
         } else {

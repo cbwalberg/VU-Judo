@@ -3,9 +3,12 @@ const functions = require('firebase-functions');
 
 // The Firebase Admin SDK to access Cloud Firestore.
 const admin = require('firebase-admin');
-admin.initializeApp()
+admin.initializeApp();
 
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+// [Function purpose]
+// Runs at 12AM ET every Sunday
+exports.scheduledFunctionCronTab = functions.pubsub.schedule('0 19 * * 6').timeZone('America/New_York').onRun((context) => {
+  console.log('Testing a scheduled function');
+  // Input functionality
+  return null;
+});
