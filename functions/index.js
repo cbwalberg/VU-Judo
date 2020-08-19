@@ -3,37 +3,53 @@ const functions = require('firebase-functions');
 
 // The Firebase Admin SDK to access Cloud Firestore.
 const admin = require('firebase-admin');
+const { _scheduleWithOptions } = require('firebase-functions/lib/providers/pubsub');
 admin.initializeApp();
 
 const db = admin.firestore();
 
-// [Function purpose]
 // Runs at 12AM ET every Sunday '0 0 * * 0'
-// Using '*/5 * * * *' (every five minutes) for testing purposes
-exports.scheduledFunctionCronTab = functions.pubsub.schedule('*/5 * * * *').timeZone('America/New_York').onRun((context) => {
+exports.weeklyScoreReset = functions.pubsub.schedule('0 0 * * 0').timeZone('America/New_York').onRun((context) => {
+  return setLeaderboardHistory();
+});
 
-  const queryRef = db.collection('users');
-  var scoreArray = [], top3 = [];
-
-  const getQuery = queryRef.get().then(query => {
+// Record all user info in the users subcollection within a weekly doc of leaderboard_history
+function setLeaderboardHistory() {
+  const usersQuery = db.collection('users').get().then(query => {
     let docs = query.docs;
+
+    // Get today's date
+    let est = new Date().toLocaleString("en-US", {timeZone: "America/New_York"});
+    let now = new Date(est); 
+    let leaderboardDocName = 'Week of ' + (now.getMonth()+1).toString() + '-' + now.getDate().toString() + '-' + now.getFullYear().toString();
+
+    db.doc('leaderboard_history/'+leaderboardDocName).set({createdAt: now.toLocaleTimeString()}, {merge : true})
+
     for (let i=0; i<docs.length; i++) {
-      scoreArray.push(docs[i].data());    
+      db.doc('leaderboard_history/'+leaderboardDocName+'/users/'+docs[i].id).set(docs[i].data(), {merge : true});
     }
 
-    scoreArray.sort((a,b) => {return b.score - a.score});
-    for (let i=0; i<3; i++) {
-      top3.push(scoreArray[i])
-      console.log(`Retrieved data: ${JSON.stringify(top3[i])}`);
-    }
+    return docs;
 
-    return null;
+  }).then(() => {
+    return resetUserScores();
   });
 
-  let now = new Date();
-  let month = now.getMonth() + 1;
-  let leaderboardDocName = 'leaderboard/Week of ' + month + '-' + now.getDate().toString() + '-' + now.getFullYear().toString();
-  console.log(leaderboardDocName);
+  return usersQuery;
+}
 
-  return null;
-});
+// Reset all user scores to 0
+function resetUserScores() {
+  const usersQuery = db.collection('users').get().then(query => {
+    let docs = query.docs;
+  
+    // Update all user scores to zero
+    for (let i=0; i<docs.length; i++) {
+      db.doc('users/'+docs[i].id).update({score : 0});
+    }
+  
+    return docs;
+  });
+
+  return usersQuery;
+}

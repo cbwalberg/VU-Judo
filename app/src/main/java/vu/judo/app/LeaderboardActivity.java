@@ -63,7 +63,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         lastWeekLeaderboardName = "Week of " + (lastSunday.get(Calendar.MONTH)+1) + "-" + lastSunday.get(Calendar.DATE) + "-" + lastSunday.get(Calendar.YEAR);
         Toast.makeText(LeaderboardActivity.this, lastWeekLeaderboardName, Toast.LENGTH_SHORT).show();
 
-        lastWeekLeaderboard = db.collection("leaderboard").document(lastWeekLeaderboardName);
+        lastWeekLeaderboard = db.collection("leaderboard_history").document(lastWeekLeaderboardName);
         users = db.collection("users");
 
         //Top 3 only needs to be built once since it doesn't change moment to moment
