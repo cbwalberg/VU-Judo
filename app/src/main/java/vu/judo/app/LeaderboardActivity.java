@@ -8,7 +8,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -20,7 +19,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
     static final String TAG = "Leaderboard";
 
-    String lastWeekLeaderboardName;
+    String leaderboardHistoryDoc;
 
     User temp;
     ArrayList<User> leaderboardList, top3List;
@@ -28,8 +27,7 @@ public class LeaderboardActivity extends AppCompatActivity {
     ListView top3ListView, leaderboardListView;
 
     FirebaseFirestore db;
-    DocumentReference lastWeekLeaderboard;
-    CollectionReference users;
+    CollectionReference users, leaderboardHistoryUsers;
 
     @Override
     @SuppressWarnings("ConstantConditions")
@@ -60,10 +58,9 @@ public class LeaderboardActivity extends AppCompatActivity {
             lastSunday.add(Calendar.DAY_OF_WEEK, -(lastSunday.get(Calendar.DAY_OF_WEEK)-Calendar.SUNDAY));
         }
 
-        lastWeekLeaderboardName = "Week of " + (lastSunday.get(Calendar.MONTH)+1) + "-" + lastSunday.get(Calendar.DATE) + "-" + lastSunday.get(Calendar.YEAR);
-        Toast.makeText(LeaderboardActivity.this, lastWeekLeaderboardName, Toast.LENGTH_SHORT).show();
+        leaderboardHistoryDoc = "Week of " + (lastSunday.get(Calendar.MONTH)+1) + "-" + lastSunday.get(Calendar.DATE) + "-" + lastSunday.get(Calendar.YEAR);
 
-        lastWeekLeaderboard = db.collection("leaderboard_history").document(lastWeekLeaderboardName);
+        leaderboardHistoryUsers = db.collection("leaderboard_history").document(leaderboardHistoryDoc).collection("users");
         users = db.collection("users");
 
         //Top 3 only needs to be built once since it doesn't change moment to moment
@@ -79,9 +76,17 @@ public class LeaderboardActivity extends AppCompatActivity {
     }
 
     public void buildTop3() {
-        lastWeekLeaderboard.get().addOnSuccessListener(documentSnapshot -> {
-            //Save top 3 scorers from leaderboard into top3List
-            //...
+        leaderboardHistoryUsers.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            //Gather all user history from leaderboardHistoryDoc into top3List
+            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                temp = new User(document.getString("email"), document.getString("firstName"), document.getString("lastName"), document.getLong("score").intValue());
+                top3List.add(temp);
+            }
+
+            //Sort leaderboardList by score in descending order
+            Collections.sort(top3List, (o1, o2) -> o2.getScore() - o1.getScore());
+
+            top3List = new ArrayList<>(top3List.subList(0, 3));
 
             //Adapt top3List ArrayList to ListView
             UsersAdapter top3Adapter = new UsersAdapter(LeaderboardActivity.this, top3List);

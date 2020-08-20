@@ -23,8 +23,6 @@ function setLeaderboardHistory() {
     let now = new Date(est); 
     let leaderboardDocName = 'Week of ' + (now.getMonth()+1).toString() + '-' + now.getDate().toString() + '-' + now.getFullYear().toString();
 
-    db.doc('leaderboard_history/'+leaderboardDocName).set({createdAt: now.toLocaleTimeString()}, {merge : true})
-
     for (let i=0; i<docs.length; i++) {
       db.doc('leaderboard_history/'+leaderboardDocName+'/users/'+docs[i].id).set(docs[i].data(), {merge : true});
     }
