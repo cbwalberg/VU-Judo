@@ -1,0 +1,110 @@
+[debug] [2020-08-24T00:02:45.344Z] ----------------------------------------------------------------------
+[debug] [2020-08-24T00:02:45.346Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Charles\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only functions:weeklyScoreReset
+[debug] [2020-08-24T00:02:45.346Z] CLI Version:   8.7.0
+[debug] [2020-08-24T00:02:45.346Z] Platform:      win32
+[debug] [2020-08-24T00:02:45.346Z] Node Version:  v12.18.2
+[debug] [2020-08-24T00:02:45.347Z] Time:          Sun Aug 23 2020 20:02:45 GMT-0400 (Eastern Daylight Time)
+[debug] [2020-08-24T00:02:45.347Z] ----------------------------------------------------------------------
+[debug] [2020-08-24T00:02:45.347Z] 
+[debug] [2020-08-24T00:02:45.354Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-08-24T00:02:45.355Z] > authorizing via signed-in user
+[debug] [2020-08-24T00:02:45.355Z] [iam] checking project vujudologin for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2020-08-24T00:02:45.357Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/vujudologin:testIamPermissions  
+ {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
+[debug] [2020-08-24T00:02:45.627Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Mon, 24 Aug 2020 00:02:44 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=182","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-08-24T00:02:45.629Z] >>> HTTP REQUEST POST https://iam.googleapis.com/v1/projects/vujudologin/serviceAccounts/vujudologin@appspot.gserviceaccount.com:testIamPermissions  
+ {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2020-08-24T00:02:45.767Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Mon, 24 Aug 2020 00:02:44 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[warn] !  functions: package.json indicates an outdated version of firebase-functions.
+Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[info] 
+[info] === Deploying to 'vujudologin'...
+[info] 
+[info] i  deploying functions 
+[info] Running command: npm --prefix "$RESOURCE_DIR" run lint
+[info] +  functions: Finished running predeploy script. 
+[debug] [2020-08-24T00:02:53.234Z] > [functions] package.json contents: {
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "10"
+  },
+  "dependencies": {
+    "firebase-admin": "^8.10.0",
+    "firebase-functions": "^3.9.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.12.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "firebase-functions-test": "^0.2.0"
+  },
+  "private": true
+}
+[info] i  functions: ensuring required API cloudfunctions.googleapis.com is enabled... 
+[info] i  functions: ensuring required API cloudbuild.googleapis.com is enabled... 
+[debug] [2020-08-24T00:02:55.131Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/vujudologin/services/cloudfunctions.googleapis.com  
+ 
+[debug] [2020-08-24T00:02:55.132Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/vujudologin/services/runtimeconfig.googleapis.com  
+ 
+[debug] [2020-08-24T00:02:55.132Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/vujudologin/services/cloudbuild.googleapis.com  
+ 
+[debug] [2020-08-24T00:02:55.528Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Mon, 24 Aug 2020 00:02:54 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-08-24T00:02:55.530Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Mon, 24 Aug 2020 00:02:54 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[info] +  functions: required API cloudbuild.googleapis.com is enabled 
+[debug] [2020-08-24T00:02:55.543Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Mon, 24 Aug 2020 00:02:54 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[info] +  functions: required API cloudfunctions.googleapis.com is enabled 
+[debug] [2020-08-24T00:02:55.546Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/vujudologin/adminSdkConfig  
+ 
+[debug] [2020-08-24T00:02:55.799Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Mon, 24 Aug 2020 00:02:54 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[info] i  functions: preparing functions directory for uploading... 
+[debug] [2020-08-24T00:02:55.801Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/vujudologin/configs  
+ 
+[debug] [2020-08-24T00:02:56.194Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Mon, 24 Aug 2020 00:02:54 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[info] i  functions: packaged functions (39.96 KB) for uploading 
+[debug] [2020-08-24T00:02:58.864Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/projects/vujudologin/locations/-/functions  
+ 
+[debug] [2020-08-24T00:02:59.471Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Mon, 24 Aug 2020 00:02:58 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-08-24T00:02:59.476Z] >>> HTTP REQUEST POST https://cloudfunctions.googleapis.com/v1/projects/vujudologin/locations/us-central1/functions:generateUploadUrl  
+ 
+[debug] [2020-08-24T00:03:00.105Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Mon, 24 Aug 2020 00:02:58 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-08-24T00:03:00.106Z] >>> HTTP REQUEST PUT https://storage.googleapis.com/gcf-upload-us-central1-304aec38-ec39-4b6b-a326-28eb29796075/ad4e632c-e90a-4b50-87dc-ae66a7b8eab7.zip?GoogleAccessId=service-394247157648@gcf-admin-robot.iam.gserviceaccount.com&Expires=1598229178&Signature=ojmaKoufK4%2BaBAZYuGHlJuBMNs5Z8XfaedXdAN9s9bIgkvxTtNArdR1b2W0u3rQnGqfV7EVtf%2BPNFzKO4kfJP9Qi2jXTVSZDOa5nE0jiZNoW4YXOmefPqlYGLLHRSyEc9tp4DycuNSGwTYDTxmsjEr6lGKdP4zIY2AmwaIjMPgfMzprYif6rTUH60yHp8aTmF8JpgMjc59PyCMKY9fUKWPWYAsoPY%2BD7j3E1jzSZyGCuVusc%2FTeaB%2FQ4MNz0waC7hy2Om8zvijbtkmVlUWC5fEShkpBjtREB3hvNHLoyVb5DejRqoJugNSX4yc%2Bs5Okyqwe8YkgpKw2zzSNQvcR%2Fdg%3D%3D  
+ <request body omitted>
+[debug] [2020-08-24T00:03:00.458Z] <<< HTTP RESPONSE 200 {"x-guploader-uploadid":"AAANsUmE0bEojEIPpEqvvJr2_JqysqG7WpxvjXMNPeFx0zfISA-m5ehUBKcJDdIDgyyuWqmgE0bMhQHCzBKzEPNbSDgYH3qTYw","etag":"\"5b8ced110d8a4c02e5aeb83a1ceacc07\"","x-goog-generation":"1598227379143675","x-goog-metageneration":"1","x-goog-hash":"crc32c=CmTEYQ==, md5=W4ztEQ2KTALlrrg6HOrMBw==","x-goog-stored-content-length":"40917","x-goog-stored-content-encoding":"identity","vary":"Origin","content-length":"0","date":"Mon, 24 Aug 2020 00:02:59 GMT","server":"UploadServer","content-type":"text/html; charset=UTF-8","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\""}
+[info] +  functions: functions folder uploaded successfully 
+[debug] [2020-08-24T00:03:00.460Z] > [functions] filtering triggers to: [
+  "projects/vujudologin/locations/us-central1/functions/weeklyScoreReset"
+]
+[info] i  functions: uploading functions in project: weeklyScoreReset(us-central1) 
+[info] i  functions: creating Node.js 10 function weeklyScoreReset(us-central1)... 
+[debug] [2020-08-24T00:03:00.515Z] Trigger is:  {"eventTrigger":{"resource":"projects/vujudologin/topics/firebase-schedule-weeklyScoreReset-us-central1","eventType":"google.pubsub.topic.publish","service":"pubsub.googleapis.com"}}
+[info] i  scheduler: ensuring required API cloudscheduler.googleapis.com is enabled... 
+[info] i  pubsub: ensuring required API pubsub.googleapis.com is enabled... 
+[debug] [2020-08-24T00:03:00.519Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/vujudologin/services/cloudscheduler.googleapis.com  
+ 
+[debug] [2020-08-24T00:03:00.519Z] >>> HTTP REQUEST GET https://serviceusage.googleapis.com/v1/projects/vujudologin/services/pubsub.googleapis.com  
+ 
+[debug] [2020-08-24T00:03:00.852Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Mon, 24 Aug 2020 00:02:59 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[info] +  scheduler: required API cloudscheduler.googleapis.com is enabled 
+[debug] [2020-08-24T00:03:00.891Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Mon, 24 Aug 2020 00:02:59 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[info] +  pubsub: required API pubsub.googleapis.com is enabled 
+[debug] [2020-08-24T00:03:00.895Z] >>> HTTP REQUEST GET https://cloudscheduler.googleapis.com/v1beta1/projects/vujudologin/locations/us-central1/jobs/firebase-schedule-weeklyScoreReset-us-central1  
+ 
+[debug] [2020-08-24T00:03:01.134Z] <<< HTTP RESPONSE 404 {"vary":"X-Origin, Referer, Origin,Accept-Encoding","content-type":"application/json; charset=UTF-8","date":"Mon, 24 Aug 2020 00:02:59 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-08-24T00:03:01.134Z] <<< HTTP RESPONSE BODY {"error":{"code":404,"message":"Job not found.","status":"NOT_FOUND"}}
+[debug] [2020-08-24T00:03:01.135Z] >>> HTTP REQUEST POST https://cloudscheduler.googleapis.com/v1beta1/projects/vujudologin/locations/us-central1/jobs  
+ {"timeZone":"America/New_York","schedule":"0 0 * * 0","name":"projects/vujudologin/locations/us-central1/jobs/firebase-schedule-weeklyScoreReset-us-central1","pubsubTarget":{"topicName":"projects/vujudologin/topics/firebase-schedule-weeklyScoreReset-us-central1","attributes":{"scheduled":"true"}}}
+[debug] [2020-08-24T00:03:01.818Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Mon, 24 Aug 2020 00:03:00 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[info] +  functions: created scheduler job firebase-schedule-weeklyScoreReset-us-central1 
+[debug] [2020-08-24T00:03:01.823Z] >>> HTTP REQUEST POST https://cloudfunctions.googleapis.com/v1/projects/vujudologin/locations/us-central1/functions  
+ {"sourceUploadUrl":"https://storage.googleapis.com/gcf-upload-us-central1-304aec38-ec39-4b6b-a326-28eb29796075/ad4e632c-e90a-4b50-87dc-ae66a7b8eab7.zip?GoogleAccessId=service-394247157648@gcf-admin-robot.iam.gserviceaccount.com&Expires=1598229178&Signature=ojmaKoufK4%2BaBAZYuGHlJuBMNs5Z8XfaedXdAN9s9bIgkvxTtNArdR1b2W0u3rQnGqfV7EVtf%2BPNFzKO4kfJP9Qi2jXTVSZDOa5nE0jiZNoW4YXOmefPqlYGLLHRSyEc9tp4DycuNSGwTYDTxmsjEr6lGKdP4zIY2AmwaIjMPgfMzprYif6rTUH60yHp8aTmF8JpgMjc59PyCMKY9fUKWPWYAsoPY%2BD7j3E1jzSZyGCuVusc%2FTeaB%2FQ4MNz0waC7hy2Om8zvijbtkmVlUWC5fEShkpBjtREB3hvNHLoyVb5DejRqoJugNSX4yc%2Bs5Okyqwe8YkgpKw2zzSNQvcR%2Fdg%3D%3D","name":"projects/vujudologin/locations/us-central1/functions/weeklyScoreReset","entryPoint":"weeklyScoreReset","labels":{"deployment-tool":"cli-firebase","deployment-scheduled":"true"},"runtime":"nodejs10","environmentVariables":{"FIREBASE_CONFIG":"{\"projectId\":\"vujudologin\",\"databaseURL\":\"https://vujudologin.firebaseio.com\",\"storageBucket\":\"vujudologin.appspot.com\",\"locationId\":\"us-central\"}"},"eventTrigger":{"resource":"projects/vujudologin/topics/firebase-schedule-weeklyScoreReset-us-central1","eventType":"google.pubsub.topic.publish","service":"pubsub.googleapis.com"}}
+[debug] [2020-08-24T00:03:02.503Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Mon, 24 Aug 2020 00:03:01 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-27=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-08-24T00:03:02.506Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/dnVqdWRvbG9naW4vdXMtY2VudHJhbDEvd2Vla2x5U2NvcmVSZXNldC9CU0lOb3g3dE1jaw  
+ 

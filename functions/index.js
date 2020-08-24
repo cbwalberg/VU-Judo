@@ -21,7 +21,8 @@ function setLeaderboardHistory() {
     // Get today's date
     let est = new Date().toLocaleString("en-US", {timeZone: "America/New_York"});
     let now = new Date(est); 
-    let leaderboardDocName = 'Week of ' + (now.getMonth()+1).toString() + '-' + now.getDate().toString() + '-' + now.getFullYear().toString();
+    // Set date to last Sunday
+    let leaderboardDocName = 'Week of ' + (now.getMonth()+1).toString() + '-' + (now.getDate()-7).toString() + '-' + now.getFullYear().toString();
 
     for (let i=0; i<docs.length; i++) {
       db.doc('leaderboard_history/'+leaderboardDocName+'/users/'+docs[i].id).set(docs[i].data(), {merge : true});
