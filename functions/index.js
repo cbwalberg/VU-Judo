@@ -19,10 +19,11 @@ function setLeaderboardHistory() {
     let docs = query.docs;
 
     // Get today's date
-    let est = new Date().toLocaleString("en-US", {timeZone: "America/New_York"});
-    let now = new Date(est); 
+    let now = new Date().toLocaleString("en-US", {timeZone: "America/New_York"});
+    let lastSunday = new Date(now); 
+    lastSunday.setDate(lastSunday.getDate()-7);
     // Set date to last Sunday
-    let leaderboardDocName = 'Week of ' + (now.getMonth()+1).toString() + '-' + (now.getDate()-7).toString() + '-' + now.getFullYear().toString();
+    let leaderboardDocName = 'Week of ' + (lastSunday.getMonth()+1).toString() + '-' + (lastSunday.getDate()).toString() + '-' + lastSunday.getFullYear().toString();
 
     for (let i=0; i<docs.length; i++) {
       db.doc('leaderboard_history/'+leaderboardDocName+'/users/'+docs[i].id).set(docs[i].data(), {merge : true});

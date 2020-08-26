@@ -51,11 +51,11 @@ public class LeaderboardActivity extends AppCompatActivity {
         //Find leaderboard from most recent sunday (https://stackoverflow.com/questions/12783102/how-to-get-the-last-sunday-before-current-date)
         Calendar lastSunday = Calendar.getInstance();
 
-        //Get the most recent Sunday
-        lastSunday.add(Calendar.DAY_OF_WEEK, -(lastSunday.get(Calendar.DAY_OF_WEEK)-Calendar.SUNDAY));
+        //Get the Sunday before the most recent Sunday
+        lastSunday.add(Calendar.DAY_OF_WEEK, (-(lastSunday.get(Calendar.DAY_OF_WEEK)-Calendar.SUNDAY))-7);
 
         //Set the name to the Sunday before the most recent Sunday
-        leaderboardHistoryDoc = "Week of " + (lastSunday.get(Calendar.MONTH)+1) + "-" + (lastSunday.get(Calendar.DATE)-7) + "-" + lastSunday.get(Calendar.YEAR);
+        leaderboardHistoryDoc = "Week of " + (lastSunday.get(Calendar.MONTH)+1) + "-" + lastSunday.get(Calendar.DATE) + "-" + lastSunday.get(Calendar.YEAR);
 
         leaderboardHistoryUsers = db.collection("leaderboard_history").document(leaderboardHistoryDoc).collection("users");
         users = db.collection("users");
