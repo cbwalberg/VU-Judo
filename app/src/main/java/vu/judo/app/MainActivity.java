@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+// import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                         //Sign in is successful, navigate to home screen
                         Toast.makeText(MainActivity.this, "Welcome!", Toast.LENGTH_SHORT).show();
                         startActivity(new Intent(MainActivity.this, HomeActivity.class));
-                        Log.d(TAG, "signInWithEmail:success");
+                        // Log.d(TAG, "signInWithEmail:success");
                     } else {
                         //Sign in is unsuccessful, notify user why
                         try {
@@ -77,15 +77,15 @@ public class MainActivity extends AppCompatActivity {
                         } catch (FirebaseAuthInvalidUserException noExistingUser) {
                             //There is no account with this email
                             Toast.makeText(MainActivity.this, "No user exists with this email address", Toast.LENGTH_LONG).show();
-                            Log.w(TAG, "signInWithEmail:failure", noExistingUser);
+                            // Log.w(TAG, "signInWithEmail:failure", noExistingUser);
                         } catch (FirebaseAuthInvalidCredentialsException wrongPassword) {
                             //Incorrect Password
                             Toast.makeText(MainActivity.this, "Incorrect Password", Toast.LENGTH_LONG).show();
-                            Log.w(TAG, "signInWithEmail:failure", wrongPassword);
+                            // Log.w(TAG, "signInWithEmail:failure", wrongPassword);
                         } catch (Exception e) {
                             //Unknown Error
                             Toast.makeText(MainActivity.this, "Authentication failed. Please try again shortly", Toast.LENGTH_LONG).show();
-                            Log.e(TAG, "signInWithEmail:failure" + e.getMessage(), e);
+                            // Log.e(TAG, "signInWithEmail:failure" + e.getMessage(), e);
                         }
                     }
                 });

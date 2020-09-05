@@ -29,7 +29,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         } catch (NullPointerException e) {
-            Log.e(TAG, "getSupportActionBar().setDisplayHomeAsUpEnabled:failure", e);
+            //Log.e(TAG, "getSupportActionBar().setDisplayHomeAsUpEnabled:failure", e);
         }
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -55,7 +55,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     //Email successfully sent
                     Toast.makeText(ForgotPasswordActivity.this, "Email sent", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(ForgotPasswordActivity.this, MainActivity.class));
-                    Log.d(TAG, "Reset Password Email sent.");
+                    //Log.d(TAG, "Reset Password Email sent.");
                 } else {
                     //Email did not send, notify user why
                     try {
@@ -63,11 +63,11 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     } catch (FirebaseAuthInvalidUserException noExistingUser) {
                         //There is no account with this email
                         Toast.makeText(ForgotPasswordActivity.this, "No user exists with this email address", Toast.LENGTH_LONG).show();
-                        Log.w(TAG, "Reset Password Email sent.");
+                        //Log.w(TAG, "Reset Password Email sent.");
                     } catch (Exception e) {
                         //Unknown error
                         Toast.makeText(ForgotPasswordActivity.this, "Failed to send email. Please try again shortly", Toast.LENGTH_LONG).show();
-                        Log.e(TAG, "sendPasswordResetEmail:failure", e);
+                        //Log.e(TAG, "sendPasswordResetEmail:failure", e);
                     }
                 }
             });

@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
+// import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -46,7 +46,7 @@ public class LogActivity extends AppCompatActivity {
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         } catch (NullPointerException e) {
-            Log.e(TAG, "getSupportActionBar().setDisplayHomeAsUpEnabled:failure", e);
+            // Log.e(TAG, "getSupportActionBar().setDisplayHomeAsUpEnabled:failure", e);
         }
 
         db = FirebaseFirestore.getInstance();
@@ -77,7 +77,7 @@ public class LogActivity extends AppCompatActivity {
                 exerciseMultiplier = multipliersDoc.getLong("Exercise Multiplier").intValue();
             } else {
                 wazaMultiplier = 50; exerciseMultiplier = 10;
-                Log.d(TAG, "Failed to find score multiplier data in DB ", task.getException());
+                // Log.d(TAG, "Failed to find score multiplier data in DB ", task.getException());
             }
             //Set this specific multiplier based on whether passed exercise is waza or (workout) exercise
             thisMultiplier = waza ? wazaMultiplier : exerciseMultiplier;
@@ -186,12 +186,12 @@ public class LogActivity extends AppCompatActivity {
                             startActivity(new Intent(LogActivity.this, HomeActivity.class));
                         } else {
                             Toast.makeText(LogActivity.this, "Could not find reference to document", Toast.LENGTH_LONG).show();
-                            Log.d(TAG, "Failed to find document reference ", task1.getException());
+                            // Log.d(TAG, "Failed to find document reference ", task1.getException());
                         }
                     });
                 } else {
                     Toast.makeText(LogActivity.this, "Failed to find user information. Please restart the application", Toast.LENGTH_LONG).show();
-                    Log.d(TAG, "Could not find active user info in DB");
+                    // Log.d(TAG, "Could not find active user info in DB");
                 }
             });
         } else {

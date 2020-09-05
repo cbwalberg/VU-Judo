@@ -9,7 +9,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
+// import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -48,7 +48,7 @@ public class LibraryActivity extends AppCompatActivity {
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         } catch (NullPointerException e) {
-            Log.e(TAG, "getSupportActionBar().setDisplayHomeAsUpEnabled:failure", e);
+            // Log.e(TAG, "getSupportActionBar().setDisplayHomeAsUpEnabled:failure", e);
         }
 
         //Gets the image used for the plus button for creating the dynamic view
@@ -77,12 +77,12 @@ public class LibraryActivity extends AppCompatActivity {
                         }
                     } else {
                         Toast.makeText(LibraryActivity.this, "Failed to find exercise list", Toast.LENGTH_LONG).show();
-                        Log.d(TAG, "Error getting documents: ", task1.getException());
+                        // Log.d(TAG, "Error getting documents: ", task1.getException());
                     }
                 });
             } else {
                 Toast.makeText(LibraryActivity.this, "Failed to find waza list", Toast.LENGTH_LONG).show();
-                Log.d(TAG, "Error getting documents: ", task.getException());
+                // Log.d(TAG, "Error getting documents: ", task.getException());
             }
         });
     }

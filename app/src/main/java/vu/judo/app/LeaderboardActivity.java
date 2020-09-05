@@ -3,7 +3,7 @@ package vu.judo.app;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
+// import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -38,7 +38,7 @@ public class LeaderboardActivity extends AppCompatActivity {
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         } catch (NullPointerException e) {
-            Log.e(TAG, "getSupportActionBar().setDisplayHomeAsUpEnabled:failure", e);
+            // Log.e(TAG, "getSupportActionBar().setDisplayHomeAsUpEnabled:failure", e);
         }
         leaderboardList = new ArrayList<>();
         top3List = new ArrayList<>();
@@ -90,7 +90,7 @@ public class LeaderboardActivity extends AppCompatActivity {
             top3ListView.setAdapter(top3Adapter);
         }).addOnFailureListener(e -> {
             Toast.makeText(LeaderboardActivity.this, "Failed to find Last Week's top 3", Toast.LENGTH_LONG).show();
-            Log.d(TAG, "Error connecting to lastWeekLeaderboard document from database ", e);
+            // Log.d(TAG, "Error connecting to lastWeekLeaderboard document from database ", e);
         });
     }
 
@@ -110,7 +110,7 @@ public class LeaderboardActivity extends AppCompatActivity {
             leaderboardListView.setAdapter(leaderboardAdapter);
         }).addOnFailureListener(e -> {
             Toast.makeText(LeaderboardActivity.this, "Failed to find leaderboard", Toast.LENGTH_LONG).show();
-            Log.d(TAG, "Error connecting to users collection from database ", e);
+            // Log.d(TAG, "Error connecting to users collection from database ", e);
         });
     }
 }

@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+// import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,7 +35,7 @@ public class SignUpActivity extends AppCompatActivity {
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         } catch (NullPointerException e) {
-            Log.e(TAG, "getSupportActionBar().setDisplayHomeAsUpEnabled:failure", e);
+            // Log.e(TAG, "getSupportActionBar().setDisplayHomeAsUpEnabled:failure", e);
         }
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -97,13 +97,13 @@ public class SignUpActivity extends AppCompatActivity {
                                     //Creation of user document successful, return to log in screen
                                     Toast.makeText(SignUpActivity.this, "Sign up successful!", Toast.LENGTH_LONG).show();
                                     startActivity(new Intent(SignUpActivity.this, MainActivity.class));
-                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    // Log.d(TAG, "DocumentSnapshot successfully written!");
                                 }).addOnFailureListener(e -> {
                                     //Creation of user document failed, notify user
                                     Toast.makeText(SignUpActivity.this, "Failed to create user. Please contact you system administrator", Toast.LENGTH_LONG).show();
-                                    Log.w(TAG, "Error writing document", e);
+                                    // Log.w(TAG, "Error writing document", e);
                                 });
-                                Log.d(TAG, "createUserWithEmail:success");
+                                // Log.d(TAG, "createUserWithEmail:success");
                             } else {
                                 //Sign up is unsuccessful, notify user why
                                 try {
@@ -111,15 +111,15 @@ public class SignUpActivity extends AppCompatActivity {
                                 } catch (FirebaseAuthWeakPasswordException weakPassword) {
                                     //This password is too weak
                                     Toast.makeText(SignUpActivity.this, "This password is too weak", Toast.LENGTH_LONG).show();
-                                    Log.w(TAG, "createUserWithEmail:failure", weakPassword);
+                                    // Log.w(TAG, "createUserWithEmail:failure", weakPassword);
                                 } catch (FirebaseAuthUserCollisionException userAlreadyExists) {
                                     //User with this email already exists
                                     Toast.makeText(SignUpActivity.this, "A user with this email address already exists", Toast.LENGTH_LONG).show();
-                                    Log.w(TAG, "createUserWithEmail:failure", userAlreadyExists);
+                                    // Log.w(TAG, "createUserWithEmail:failure", userAlreadyExists);
                                 } catch (Exception e) {
                                     //Unknown Error
                                     Toast.makeText(SignUpActivity.this, "Sign up failed. Please try again shortly", Toast.LENGTH_LONG).show();
-                                    Log.e(TAG, "createUserWithEmail:failure", e);
+                                    // Log.e(TAG, "createUserWithEmail:failure", e);
                                 }
                             }
                         });

@@ -63,7 +63,7 @@ public class HomeActivity extends AppCompatActivity {
                 getUserInfo();
             } else {
                 getUserInfo();
-                Log.d(TAG, "Error getting documents: ", task.getException());
+                // Log.d(TAG, "Error getting documents: ", task.getException());
             }
         });
 
@@ -77,7 +77,7 @@ public class HomeActivity extends AppCompatActivity {
                     }
                 }
             } else {
-                Log.d(TAG, "Error getting documents: ", task.getException());
+                // Log.d(TAG, "Error getting documents: ", task.getException());
             }
         });
     }
@@ -139,13 +139,13 @@ public class HomeActivity extends AppCompatActivity {
                     userScoreDisplay.setText(String.valueOf(score));
                     userRankDisplay.setText(rankText);
 
-                    Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                    //Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                 } else {
-                    Log.d(TAG, "No such document");
+                    //Log.d(TAG, "No such document");
                 }
             } else {
                 Toast.makeText(HomeActivity.this, "Failed to find user information. Please restart the application", Toast.LENGTH_LONG).show();
-                Log.d(TAG, "get failed with ", task.getException());
+                // Log.d(TAG, "get failed with ", task.getException());
             }
         });
     }
