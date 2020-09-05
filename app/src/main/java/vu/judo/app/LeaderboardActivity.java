@@ -83,7 +83,9 @@ public class LeaderboardActivity extends AppCompatActivity {
             //Sort leaderboardList by score in descending order
             Collections.sort(top3List, (o1, o2) -> o2.getScore() - o1.getScore());
 
-            top3List = new ArrayList<>(top3List.subList(0, 3));
+            if (top3List.size() > 3) {
+                top3List = new ArrayList<>(top3List.subList(0, 3));
+            }
 
             //Adapt top3List ArrayList to ListView
             UsersAdapter top3Adapter = new UsersAdapter(LeaderboardActivity.this, top3List);
