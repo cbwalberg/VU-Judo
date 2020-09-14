@@ -1076,7 +1076,6 @@ string common_signin_button_text
 string common_signin_button_text_long
 string confirm
 string confirmPasswordPrompt
-string dailyAssignmentButton
 string default_web_client_id
 string emailAddressPrompt
 string exercises
@@ -1108,6 +1107,7 @@ string status_bar_notification_info_overflow
 string submit
 string top3
 string waza
+string weeklyAssignmentButton
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog

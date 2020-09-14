@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+// import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,14 +19,13 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Locale;
 
 public class HomeActivity extends AppCompatActivity {
 
-    static final String TAG = "Home";
+    // static final String TAG = "Home";
 
     int score, rank;
-    String email, firstName, rankText, dailyWaza;
+    String email, firstName, rankText, weeklyWaza;
     ArrayList<Integer> scores;
 
     TextView userNameDisplay, userScoreDisplay, userRankDisplay;
@@ -71,8 +70,8 @@ public class HomeActivity extends AppCompatActivity {
         waza.get().addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    if (document.getBoolean("dailyAssignment")) {
-                        dailyWaza = document.getString("name");
+                    if (document.getBoolean("weeklyAssignment")) {
+                        weeklyWaza = document.getString("name");
                         break;
                     }
                 }
@@ -85,7 +84,7 @@ public class HomeActivity extends AppCompatActivity {
     public void dailyAssignment(View view) {
         Bundle thisAssignment = new Bundle();
         thisAssignment.putString("goto", "HomeActivity");
-        thisAssignment.putString("exercise", dailyWaza);
+        thisAssignment.putString("exercise", weeklyWaza);
         thisAssignment.putString("type", "waza");
         startActivity(new Intent(this, LogActivity.class).putExtras(thisAssignment));
     }

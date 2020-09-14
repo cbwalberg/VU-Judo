@@ -1,13 +1,17 @@
 -publish: https://developer.android.com/studio/publish - beta test
 
--change today's technique to this week's technique - v1				easy
+-autopopulate date - v1								DONE
+-change today's technique to this week's technique - v1				DONE (remove dailyAssignment field of all waza after v1 release)
+-cut joe's scores in half							DONE
+-make leaderboards only display top 10 - v1					DONE
+
 -change waza to have unique scores - v1						easy
--all time scores/leaderboard - v1						easy
--make leaderboards only display top 10 - v1					easy
--cut joe's scores in half							easy
+-all time user scores & leaderboard - v1					easy
+-rework libraryActivity to uselist functionality of leaderboardActivity		medium
+-replace logging								medium
 -attending zoom HIIT session is worth points - v1				medium
 -build set workouts worth a certain amount of points - v1			hard
--push notification for HIIT sessions - v1					hard
+-push notification for HIIT sessions & general reminders - v1			hard
 
 -streak multiplier for consistency - v2						medium
 -milestone/achievements list for both individuals and the team as a whole - v2	hard
