@@ -84,6 +84,8 @@ public class LogActivity extends AppCompatActivity {
         });
 
         //When the dateView text is clicked, show a dialog allowing users to select a date
+        selectedDate = convertMonth(selectedMonth) + " " + selectedDay + " " + selectedYear;
+        dateView.setText(selectedDate);
         dateView.setOnClickListener(view -> {
             DatePickerDialog datePickerDialog = new DatePickerDialog(
                     LogActivity.this,
@@ -92,45 +94,7 @@ public class LogActivity extends AppCompatActivity {
                         selectedDay = day;
                         selectedMonth = month;
                         selectedYear = year;
-                        String monthText = "";
-                        switch (month) {
-                            case 0:
-                                monthText = "JAN";
-                                break;
-                            case 1:
-                                monthText = "FEB";
-                                break;
-                            case 2:
-                                monthText = "MAR";
-                                break;
-                            case 3:
-                                monthText = "APR";
-                                break;
-                            case 4:
-                                monthText = "MAY";
-                                break;
-                            case 5:
-                                monthText = "JUN";
-                                break;
-                            case 6:
-                                monthText = "JUL";
-                                break;
-                            case 7:
-                                monthText = "AUG";
-                                break;
-                            case 8:
-                                monthText = "SEP";
-                                break;
-                            case 9:
-                                monthText = "OCT";
-                                break;
-                            case 10:
-                                monthText = "NOV";
-                                break;
-                            case 11:
-                                monthText = "DEC";
-                                break;
-                        }
+                        String monthText = convertMonth(month);
                         String date = monthText + " " + day + " " + year;
                         dateView.setText(date);
                         selectedDate = date;
@@ -163,12 +127,17 @@ public class LogActivity extends AppCompatActivity {
             userEmail = FirebaseAuth.getInstance().getCurrentUser().getEmail();
             userDoc = db.collection("users").document(userEmail);
 
-            // This will save the document reference if it exists, and create and save it if either the document OR the colleciton don't exist
+            // This will save the document reference if it exists, and create and save it if either the document OR the collection don't exist
             dateDoc = userDoc.collection("Practice Log").document(selectedDate);
 
             userDoc.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful() && task.getResult().exists()) {
-                    task.getResult().getReference().update("score", task.getResult().getLong("score").intValue() + (reps * thisMultiplier));
+                    //Half Joe's score per his request
+                    if (userEmail.equals("joemore117@gmail.com")) {
+                        task.getResult().getReference().update("score", task.getResult().getLong("score").intValue() + ((reps * thisMultiplier)/2));
+                    } else {
+                        task.getResult().getReference().update("score", task.getResult().getLong("score").intValue() + (reps * thisMultiplier));
+                    }
 
                     dateDoc.get().addOnCompleteListener(task1 -> {
                         if (task1.isSuccessful()) {
@@ -197,6 +166,49 @@ public class LogActivity extends AppCompatActivity {
         } else {
             Toast.makeText(LogActivity.this, "Please enter number of reps and select a date to save", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public String convertMonth(int month) {
+        String monthText = "";
+        switch (month) {
+            case 0:
+                monthText = "Jan";
+                break;
+            case 1:
+                monthText = "Feb";
+                break;
+            case 2:
+                monthText = "Mar";
+                break;
+            case 3:
+                monthText = "Apr";
+                break;
+            case 4:
+                monthText = "May";
+                break;
+            case 5:
+                monthText = "Jun";
+                break;
+            case 6:
+                monthText = "Jul";
+                break;
+            case 7:
+                monthText = "Aug";
+                break;
+            case 8:
+                monthText = "Sep";
+                break;
+            case 9:
+                monthText = "Oct";
+                break;
+            case 10:
+                monthText = "Nov";
+                break;
+            case 11:
+                monthText = "Dec";
+                break;
+        }
+        return monthText;
     }
 
     @Override

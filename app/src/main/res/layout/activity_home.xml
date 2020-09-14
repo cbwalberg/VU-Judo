@@ -92,7 +92,7 @@
         android:lineSpacingExtra="14sp"
         android:onClick="dailyAssignment"
         android:padding="50dip"
-        android:text="@string/dailyAssignmentButton"
+        android:text="@string/weeklyAssignmentButton"
         android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

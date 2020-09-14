@@ -12,14 +12,14 @@
     <string name="confirm">Confirm</string>
     <string name="score">Score</string>
     <string name="rank">Rank</string>
-    <string name="dailyAssignmentButton">Today\'s\nTechnique</string>
+    <string name="weeklyAssignmentButton">This Week\'s\nTechnique</string>
     <string name="leaderboardButton">Leaderboard</string>
     <string name="libraryButton">Waza and Exercises</string>
     <string name="waza">Waza</string>
     <string name="exercises">Exercises</string>
     <string name="logReps">Number of Reps</string>
     <string name="logDateSelect">Select Date</string>
-    <string name="leaderboard">This Week\'s Leaderboard</string>
+    <string name="leaderboard">This Week\'s Top 10</string>
     <string name="leaderboardRankHeader">Rank</string>
     <string name="leaderboardNameHeader">Name</string>
     <string name="leaderboardScoreHeader">Score</string>

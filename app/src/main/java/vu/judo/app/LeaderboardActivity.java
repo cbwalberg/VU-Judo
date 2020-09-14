@@ -83,7 +83,9 @@ public class LeaderboardActivity extends AppCompatActivity {
             //Sort leaderboardList by score in descending order
             Collections.sort(top3List, (o1, o2) -> o2.getScore() - o1.getScore());
 
-            top3List = new ArrayList<>(top3List.subList(0, 3));
+            if (top3List.size() > 3) {
+                top3List = new ArrayList<>(top3List.subList(0, 3));
+            }
 
             //Adapt top3List ArrayList to ListView
             UsersAdapter top3Adapter = new UsersAdapter(LeaderboardActivity.this, top3List);
@@ -95,6 +97,7 @@ public class LeaderboardActivity extends AppCompatActivity {
     }
 
     public void buildLeaderboard() {
+        leaderboardList.clear();
         users.get().addOnSuccessListener(queryDocumentSnapshots -> {
             //Gather all users into leaderboardList
             for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
@@ -104,6 +107,10 @@ public class LeaderboardActivity extends AppCompatActivity {
 
             //Sort leaderboardList by score in descending order
             Collections.sort(leaderboardList, (o1, o2) -> o2.getScore() - o1.getScore());
+
+            if (leaderboardList.size() > 10) {
+                leaderboardList = new ArrayList<>(leaderboardList.subList(0, 10));
+            }
 
             //Adapt leaderboardList ArrayList to ListView
             UsersAdapter leaderboardAdapter = new UsersAdapter(LeaderboardActivity.this, leaderboardList);
