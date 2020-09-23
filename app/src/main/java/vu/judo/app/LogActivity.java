@@ -111,14 +111,13 @@ public class LogActivity extends AppCompatActivity {
 
         //Clear any existing text
         repsInput.getText().clear();
-        selectedDate = "";
     }
 
     public void save(View view) {
         reps = repsInput.getText().toString().equals("") ? 0 : Integer.parseInt(repsInput.getText().toString());
 
-        //Make sure reps and date have been entered/selected
-        if (!selectedDate.equals("") && reps > 0) {
+        //Make sure reps have been entered
+        if (reps > 0) {
             // Find current user, add to their score.
             // Then check if Practice Log collection already exists in current user doc, if so add to it, if not, create collection within user document named Practice Log
             // Check for document within Practice Log with name "selectedDate", if it exists edit it, if not create it
@@ -164,7 +163,7 @@ public class LogActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Toast.makeText(LogActivity.this, "Please enter number of reps and select a date to save", Toast.LENGTH_LONG).show();
+            Toast.makeText(LogActivity.this, "Please enter a number of reps to save", Toast.LENGTH_LONG).show();
         }
     }
 
