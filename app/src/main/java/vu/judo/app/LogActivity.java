@@ -27,8 +27,7 @@ public class LogActivity extends AppCompatActivity {
 
     static final String TAG = "Log";
 
-    boolean waza;
-    int reps, wazaMultiplier, exerciseMultiplier, thisMultiplier, selectedDay, selectedMonth, selectedYear;
+    int reps, scoreMultiplier, selectedDay, selectedMonth, selectedYear;
     String exercise, selectedDate, userEmail;
 
     TextView exerciseView, dateView;
@@ -37,7 +36,7 @@ public class LogActivity extends AppCompatActivity {
     Calendar calendar;
 
     FirebaseFirestore db;
-    DocumentReference userDoc, dateDoc, scoreMultipliers;
+    DocumentReference userDoc, dateDoc;
 
     @Override @SuppressWarnings("ConstantConditions")
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,29 +58,14 @@ public class LogActivity extends AppCompatActivity {
         exercise = getIntent().getExtras().getString("exercise");
         exerciseView.setText(exercise);
 
-        //Get the type of exercise passed to this activity from calling activity. Boolean "waza" true for waza, false for workout exercises
-        waza = getIntent().getExtras().getString("type").equals("waza");
+        //Get the exercise score multiplier passed to this activity from calling activity
+        scoreMultiplier = getIntent().getExtras().getInt("multiplier");
 
         //Set initial date to Today
         calendar = Calendar.getInstance();
         selectedDay = calendar.get(Calendar.DAY_OF_MONTH);
         selectedMonth = calendar.get(Calendar.MONTH);
         selectedYear = calendar.get(Calendar.YEAR);
-
-        //Get wazaMultiplier and exerciseMultiplier values from config file in db
-        scoreMultipliers = db.collection("config").document("Score Multipliers");
-        scoreMultipliers.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot multipliersDoc = task.getResult();
-                wazaMultiplier = multipliersDoc.getLong("Waza Multiplier").intValue();
-                exerciseMultiplier = multipliersDoc.getLong("Exercise Multiplier").intValue();
-            } else {
-                wazaMultiplier = 50; exerciseMultiplier = 10;
-                // Log.d(TAG, "Failed to find score multiplier data in DB ", task.getException());
-            }
-            //Set this specific multiplier based on whether passed exercise is waza or (workout) exercise
-            thisMultiplier = waza ? wazaMultiplier : exerciseMultiplier;
-        });
 
         //When the dateView text is clicked, show a dialog allowing users to select a date
         selectedDate = convertMonth(selectedMonth) + " " + selectedDay + " " + selectedYear;
@@ -133,9 +117,9 @@ public class LogActivity extends AppCompatActivity {
                 if (task.isSuccessful() && task.getResult().exists()) {
                     //Half Joe's score per his request
                     if (userEmail.equals("joemore117@gmail.com")) {
-                        task.getResult().getReference().update("score", task.getResult().getLong("score").intValue() + ((reps * thisMultiplier)/2));
+                        task.getResult().getReference().update("score", task.getResult().getLong("score").intValue() + ((reps * scoreMultiplier)/2));
                     } else {
-                        task.getResult().getReference().update("score", task.getResult().getLong("score").intValue() + (reps * thisMultiplier));
+                        task.getResult().getReference().update("score", task.getResult().getLong("score").intValue() + (reps * scoreMultiplier));
                     }
 
                     dateDoc.get().addOnCompleteListener(task1 -> {

@@ -34,7 +34,7 @@ public class LibraryActivity extends AppCompatActivity {
     ImageButton tempButton;
 
     FirebaseFirestore db;
-    CollectionReference waza, exercises;
+    CollectionReference uchikomi, exercises;
 
     @Override
     @SuppressWarnings("ConstantConditions")
@@ -57,10 +57,10 @@ public class LibraryActivity extends AppCompatActivity {
         res = getResources().getDrawable(imageResource);
 
         db = FirebaseFirestore.getInstance();
-        waza = db.collection("waza");
-        waza.get().addOnCompleteListener(task -> {
+        uchikomi = db.collection("waza");
+        uchikomi.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                previousViewId = R.id.wazaTitle;
+                previousViewId = R.id.uchikomiTitle;
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     buildView(document.getString("name"), "waza");
                 }
@@ -121,10 +121,10 @@ public class LibraryActivity extends AppCompatActivity {
         constraints.setVerticalBias(tempButton.getId(), 0.5f);
 
         //First waza & exercise are constrained slightly differently than the rest
-        if (previousViewId == R.id.wazaTitle || previousViewId == R.id.exercisesTitle) {
+        if (previousViewId == R.id.uchikomiTitle || previousViewId == R.id.exercisesTitle) {
             constraints.connect(tempView.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START);
             constraints.setHorizontalBias(tempView.getId(), 0.15f);
-            if (previousViewId == R.id.wazaTitle) {
+            if (previousViewId == R.id.uchikomiTitle) {
                 constraints.connect(tempButton.getId(), ConstraintSet.START, previousViewId, ConstraintSet.END);
                 constraints.setHorizontalBias(tempButton.getId(), 0.5f);
             } else {

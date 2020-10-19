@@ -809,7 +809,6 @@ id content
 id contentPanel
 id custom
 id customPanel
-id dailyAssignmentButton
 id dark
 id decor_content_parent
 id default_activity_button
@@ -831,12 +830,12 @@ id gone
 id group_divider
 id groups
 id home
+id homeAllTimeScore
 id homeAsUp
-id homeRank
-id homeScore
+id homeUserAllTimeScore
 id homeUserName
-id homeUserRank
-id homeUserScore
+id homeUserWeeklyScore
+id homeWeeklyScore
 id icon
 id icon_group
 id icon_only
@@ -954,6 +953,7 @@ id top3RankHeader
 id top3ScoreHeader
 id top3Title
 id topPanel
+id uchikomiTitle
 id unchecked
 id uniform
 id up
@@ -961,7 +961,7 @@ id useLogo
 id userItemName
 id userItemRank
 id userItemScore
-id wazaTitle
+id weeklyAssignmentButton
 id wide
 id withText
 id wrap
@@ -1055,6 +1055,7 @@ string abc_searchview_description_voice
 string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
+string allTimeScore
 string app_name
 string common_google_play_services_enable_button
 string common_google_play_services_enable_text
@@ -1099,15 +1100,14 @@ string logInButton
 string logReps
 string passwordPrompt
 string project_id
-string rank
-string score
 string search_menu_title
 string signUpButton
 string status_bar_notification_info_overflow
 string submit
 string top3
-string waza
+string uchikomi
 string weeklyAssignmentButton
+string weeklyScore
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light
 style Animation_AppCompat_Dialog

@@ -24,27 +24,27 @@ public class HomeActivity extends AppCompatActivity {
 
     // static final String TAG = "Home";
 
-    int score, rank;
-    String email, firstName, rankText, weeklyWaza;
-    ArrayList<Integer> scores;
+    int weeklyScore, allTimeScore, weeklyUchikomiMultiplier;
+    String email, firstName, weeklyRank, allTimeRank, weeklyUchikomi;
+    ArrayList<Integer> weeklyScores, allTimeScores;
 
-    TextView userNameDisplay, userScoreDisplay, userRankDisplay;
+    TextView userNameDisplay, userWeeklyScoreDisplay, userAllTimeScoreDisplay;
 
     FirebaseFirestore db;
     FirebaseUser userAuth;
 
     DocumentReference userDoc;
-    CollectionReference users, waza;
+    CollectionReference users, uchikomi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        scores =  new ArrayList<>();
+        weeklyScores =  new ArrayList<>(); allTimeScores = new ArrayList<>();
         userNameDisplay = findViewById(R.id.homeUserName);
-        userScoreDisplay = findViewById(R.id.homeUserScore);
-        userRankDisplay = findViewById(R.id.homeUserRank);
+        userWeeklyScoreDisplay = findViewById(R.id.homeUserWeeklyScore);
+        userAllTimeScoreDisplay = findViewById(R.id.homeUserAllTimeScore);
 
         userAuth = FirebaseAuth.getInstance().getCurrentUser();
         if (userAuth != null) {
@@ -56,22 +56,25 @@ public class HomeActivity extends AppCompatActivity {
         users.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    scores.add(document.getLong("score").intValue());
+                    weeklyScores.add(document.getLong("score").intValue());
+                    allTimeScores.add(document.getLong("allTimeScore").intValue());
                 }
-                Collections.sort(scores, Collections.reverseOrder());
-                getUserInfo();
+                Collections.sort(weeklyScores, Collections.reverseOrder());
+                Collections.sort(allTimeScores, Collections.reverseOrder());
+
             } else {
-                getUserInfo();
                 // Log.d(TAG, "Error getting documents: ", task.getException());
             }
+            getUserInfo();
         });
 
-        waza = db.collection("waza");
-        waza.get().addOnCompleteListener(task -> {
+        uchikomi = db.collection("waza");
+        uchikomi.get().addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     if (document.getBoolean("weeklyAssignment")) {
-                        weeklyWaza = document.getString("name");
+                        weeklyUchikomi = document.getString("name");
+                        weeklyUchikomiMultiplier = document.getLong("multiplier").intValue();
                         break;
                     }
                 }
@@ -81,11 +84,11 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    public void dailyAssignment(View view) {
+    public void weeklyAssignment(View view) {
         Bundle thisAssignment = new Bundle();
         thisAssignment.putString("goto", "HomeActivity");
-        thisAssignment.putString("exercise", weeklyWaza);
-        thisAssignment.putString("type", "waza");
+        thisAssignment.putString("exercise", weeklyUchikomi);
+        thisAssignment.putInt("multiplier", weeklyUchikomiMultiplier);
         startActivity(new Intent(this, LogActivity.class).putExtras(thisAssignment));
     }
 
@@ -105,38 +108,20 @@ public class HomeActivity extends AppCompatActivity {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
                     firstName = document.getString("firstName");
-                    score =  document.getLong("score").intValue();
-
-                    //Calculate rank based on score
-                    if (!scores.isEmpty()) {
-                        for (int i=0; i<scores.size(); i++) {
-                            if (score == scores.get(i)) {
-                                rank = i+1;
-                                break;
-                            }
-                        }
-
-                        switch (rank % 10) {
-                            case 1:
-                                rankText = "" + rank + "st";
-                                break;
-                            case 2:
-                                rankText = "" + rank + "nd";
-                                break;
-                            case 3:
-                                rankText = "" + rank + "rd";
-                                break;
-                            default:
-                                rankText = "" + rank + "th";
-                                break;
-                        }
-                    } else {
-                        rankText = "1st";
-                    }
-
                     userNameDisplay.setText(firstName);
-                    userScoreDisplay.setText(String.valueOf(score));
-                    userRankDisplay.setText(rankText);
+
+                    weeklyScore = document.getLong("score").intValue();
+                    allTimeScore = document.getLong("allTimeScore").intValue();
+
+                    //Calculate ranks based on score
+                    weeklyRank = setRank(weeklyScores, weeklyScore);
+                    allTimeRank = setRank(allTimeScores, allTimeScore);
+
+                    String weeklyScoreString = weeklyScore + " (" + weeklyRank + ")";
+                    String allTimeScoreString = allTimeScore + " (" + allTimeRank + ")";
+
+                    userWeeklyScoreDisplay.setText(weeklyScoreString);
+                    userAllTimeScoreDisplay.setText(allTimeScoreString);
 
                     //Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                 } else {
@@ -147,5 +132,37 @@ public class HomeActivity extends AppCompatActivity {
                 // Log.d(TAG, "get failed with ", task.getException());
             }
         });
+    }
+
+    private String setRank(ArrayList<Integer> scores, int score) {
+        int rank = 0;
+        String rankText;
+        if (!scores.isEmpty()) {
+            for (int i=0; i<scores.size(); i++) {
+                if (score == scores.get(i)) {
+                    rank = i+1;
+                    break;
+                }
+            }
+
+            switch (rank % 10) {
+                case 1:
+                    rankText = rank + "st";
+                    break;
+                case 2:
+                    rankText = rank + "nd";
+                    break;
+                case 3:
+                    rankText = rank + "rd";
+                    break;
+                default:
+                    rankText = rank + "th";
+                    break;
+            }
+        } else {
+            rankText = "1st";
+        }
+
+        return rankText;
     }
 }

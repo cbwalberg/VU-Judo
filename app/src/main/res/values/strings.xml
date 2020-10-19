@@ -10,12 +10,12 @@
     <string name="confirmPasswordPrompt">Re-enter Password</string>
     <string name="submit">Submit</string>
     <string name="confirm">Confirm</string>
-    <string name="score">Score</string>
-    <string name="rank">Rank</string>
+    <string name="weeklyScore">This Week\'s Score (Rank)</string>
+    <string name="allTimeScore">All Time Score (Rank)</string>
     <string name="weeklyAssignmentButton">This Week\'s\nTechnique</string>
     <string name="leaderboardButton">Leaderboard</string>
-    <string name="libraryButton">Waza and Exercises</string>
-    <string name="waza">Waza</string>
+    <string name="libraryButton">Uchikomi &amp; Exercises</string>
+    <string name="uchikomi">Uchikomi</string>
     <string name="exercises">Exercises</string>
     <string name="logReps">Number of Reps</string>
     <string name="logDateSelect">Select Date</string>
