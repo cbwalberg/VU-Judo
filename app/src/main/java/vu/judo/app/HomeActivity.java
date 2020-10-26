@@ -24,9 +24,10 @@ public class HomeActivity extends AppCompatActivity {
 
     // static final String TAG = "Home";
 
-    int weeklyScore, allTimeScore, weeklyUchikomiMultiplier;
+    double weeklyScore, allTimeScore;
+    float weeklyUchikomiMultiplier;
     String email, firstName, weeklyRank, allTimeRank, weeklyUchikomi;
-    ArrayList<Integer> weeklyScores, allTimeScores;
+    ArrayList<Double> weeklyScores, allTimeScores;
 
     TextView userNameDisplay, userWeeklyScoreDisplay, userAllTimeScoreDisplay;
 
@@ -56,8 +57,8 @@ public class HomeActivity extends AppCompatActivity {
         users.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    weeklyScores.add(document.getLong("score").intValue());
-                    allTimeScores.add(document.getLong("allTimeScore").intValue());
+                    weeklyScores.add(document.getDouble("score").doubleValue());
+                    allTimeScores.add(document.getDouble("allTimeScore").doubleValue());
                 }
                 Collections.sort(weeklyScores, Collections.reverseOrder());
                 Collections.sort(allTimeScores, Collections.reverseOrder());
@@ -74,7 +75,7 @@ public class HomeActivity extends AppCompatActivity {
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     if (document.getBoolean("weeklyAssignment")) {
                         weeklyUchikomi = document.getString("name");
-                        weeklyUchikomiMultiplier = document.getLong("multiplier").intValue();
+                        weeklyUchikomiMultiplier = document.getDouble("multiplier").floatValue();
                         break;
                     }
                 }
@@ -88,7 +89,7 @@ public class HomeActivity extends AppCompatActivity {
         Bundle thisAssignment = new Bundle();
         thisAssignment.putString("goto", "HomeActivity");
         thisAssignment.putString("exercise", weeklyUchikomi);
-        thisAssignment.putInt("multiplier", weeklyUchikomiMultiplier);
+        thisAssignment.putFloat("multiplier", weeklyUchikomiMultiplier);
         startActivity(new Intent(this, LogActivity.class).putExtras(thisAssignment));
     }
 
@@ -110,8 +111,8 @@ public class HomeActivity extends AppCompatActivity {
                     firstName = document.getString("firstName");
                     userNameDisplay.setText(firstName);
 
-                    weeklyScore = document.getLong("score").intValue();
-                    allTimeScore = document.getLong("allTimeScore").intValue();
+                    weeklyScore = document.getDouble("score").doubleValue();
+                    allTimeScore = document.getDouble("allTimeScore").doubleValue();
 
                     //Calculate ranks based on score
                     weeklyRank = setRank(weeklyScores, weeklyScore);
@@ -134,7 +135,7 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private String setRank(ArrayList<Integer> scores, int score) {
+    private String setRank(ArrayList<Double> scores, double score) {
         int rank = 0;
         String rankText;
         if (!scores.isEmpty()) {

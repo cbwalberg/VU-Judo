@@ -1,12 +1,12 @@
 -autopopulate date - v1								DONE
 -change today's technique to this week's technique - v1				DONE (remove dailyAssignment field of all waza after v1 release)
--cut joe's scores in half							DONE
+-cut joe's scores in half - v1							DONE
 -make leaderboards only display top 10 - v1					DONE
+-change exercises to have unique scores - v1					DONE (remove config collection after v1 release)
 
--change waza to have unique scores - v1						easy (change log screen to display multiplier for exercise. Remove config collection after v1 release)
--all time user scores & leaderboard - v1					easy (replace score field of all users with weeklyScore, rename score field reference in code (and server function), and re-deploy server function in prep for v1 release)
-	-re-design home activity: make this week's technique same dimensions
-	 as other buttons, align left side of buttons to left side of name
+-all time user scores & leaderboard - v1					easy (replace score field of all users with weeklyScore, rename score field reference in code (and server function), and re-deploy server function IN PREP for v1 release)
+	-add to user allTimeScore in log activity when saving exercise
+	-re-design home activity: make this week's technique same dimensions as other buttons, align left side of buttons to left side of name
 	-add all time leaderboard button
 -rework libraryActivity to use list functionality of leaderboardActivity	medium
 -replace logging								medium

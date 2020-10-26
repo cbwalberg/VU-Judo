@@ -27,10 +27,11 @@ public class LogActivity extends AppCompatActivity {
 
     static final String TAG = "Log";
 
-    int reps, scoreMultiplier, selectedDay, selectedMonth, selectedYear;
-    String exercise, selectedDate, userEmail;
+    int reps, selectedDay, selectedMonth, selectedYear;
+    float scoreMultiplier;
+    String exercise, multiplierString, selectedDate, userEmail;
 
-    TextView exerciseView, dateView;
+    TextView exerciseView, multiplierView, dateView;
     EditText repsInput;
 
     Calendar calendar;
@@ -51,6 +52,7 @@ public class LogActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
 
         exerciseView = findViewById(R.id.logExercise);
+        multiplierView = findViewById(R.id.logMultiplier);
         repsInput = findViewById(R.id.logReps);
         dateView = findViewById(R.id.logDate);
 
@@ -59,7 +61,9 @@ public class LogActivity extends AppCompatActivity {
         exerciseView.setText(exercise);
 
         //Get the exercise score multiplier passed to this activity from calling activity
-        scoreMultiplier = getIntent().getExtras().getInt("multiplier");
+        scoreMultiplier = getIntent().getExtras().getFloat("multiplier");
+        multiplierString = scoreMultiplier == 1.0 ? scoreMultiplier + " point/rep" : scoreMultiplier + " points/rep";
+        multiplierView.setText(multiplierString);
 
         //Set initial date to Today
         calendar = Calendar.getInstance();
@@ -117,9 +121,9 @@ public class LogActivity extends AppCompatActivity {
                 if (task.isSuccessful() && task.getResult().exists()) {
                     //Half Joe's score per his request
                     if (userEmail.equals("joemore117@gmail.com")) {
-                        task.getResult().getReference().update("score", task.getResult().getLong("score").intValue() + ((reps * scoreMultiplier)/2));
+                        task.getResult().getReference().update("score", task.getResult().getDouble("score").doubleValue() + ((reps * scoreMultiplier)/2));
                     } else {
-                        task.getResult().getReference().update("score", task.getResult().getLong("score").intValue() + (reps * scoreMultiplier));
+                        task.getResult().getReference().update("score", task.getResult().getDouble("score").doubleValue() + (reps * scoreMultiplier));
                     }
 
                     dateDoc.get().addOnCompleteListener(task1 -> {

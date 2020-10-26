@@ -866,6 +866,7 @@ id logInButton
 id logInEmailAddress
 id logInPassword
 id logInTitle
+id logMultiplier
 id logReps
 id logSaveButton
 id logTitle

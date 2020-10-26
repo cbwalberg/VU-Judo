@@ -62,7 +62,7 @@ public class LibraryActivity extends AppCompatActivity {
             if (task.isSuccessful()) {
                 previousViewId = R.id.uchikomiTitle;
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    buildView(document.getString("name"), "waza");
+                    buildView(document.getString("name"), document.getDouble("multiplier").floatValue());
                 }
 
                 constraints.connect(R.id.exercisesTitle, ConstraintSet.TOP, previousViewId, ConstraintSet.BOTTOM);
@@ -73,7 +73,7 @@ public class LibraryActivity extends AppCompatActivity {
                     if (task1.isSuccessful()) {
                         previousViewId = R.id.exercisesTitle;
                         for (QueryDocumentSnapshot document : task1.getResult()) {
-                            buildView(document.getString("name"), "exercise");
+                            buildView(document.getString("name"), document.getDouble("multiplier").floatValue());
                         }
                     } else {
                         Toast.makeText(LibraryActivity.this, "Failed to find exercise list", Toast.LENGTH_LONG).show();
@@ -87,7 +87,7 @@ public class LibraryActivity extends AppCompatActivity {
         });
     }
 
-    public void buildView(final String name, final String type) {
+    public void buildView(final String name, final float multiplier) {
         tempView = new TextView(this);
         tempView.setId(View.generateViewId());
         tempView.setLayoutParams(new ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT, ConstraintLayout.LayoutParams.WRAP_CONTENT));
@@ -103,7 +103,7 @@ public class LibraryActivity extends AppCompatActivity {
         tempButton.setOnClickListener(v -> {
             Bundle bundle = new Bundle();
             bundle.putString("exercise", name);
-            bundle.putString("type", type);
+            bundle.putFloat("multiplier", multiplier);
             bundle.putString("goto", "LibraryActivity");
             startActivity(new Intent(LibraryActivity.this, LogActivity.class).putExtras(bundle));
         });
