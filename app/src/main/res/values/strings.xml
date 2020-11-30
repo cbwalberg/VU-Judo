@@ -10,10 +10,11 @@
     <string name="confirmPasswordPrompt">Re-enter Password</string>
     <string name="submit">Submit</string>
     <string name="confirm">Confirm</string>
-    <string name="weeklyScore">This Week\'s Score (Rank)</string>
+    <string name="weeklyScore">Weekly Score (Rank)</string>
     <string name="allTimeScore">All Time Score (Rank)</string>
-    <string name="weeklyAssignmentButton">This Week\'s\nTechnique</string>
-    <string name="leaderboardButton">Leaderboard</string>
+    <string name="weeklyUchikomiButton">Weekly Uchikomi</string>
+    <string name="weeklyLeaderboardButton">Weekly Leaderboard</string>
+    <string name="allTimeLeaderboardButton">All Time Leaderboard</string>
     <string name="libraryButton">Uchikomi &amp; Exercises</string>
     <string name="uchikomi">Uchikomi</string>
     <string name="exercises">Exercises</string>

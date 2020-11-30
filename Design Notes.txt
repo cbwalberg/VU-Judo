@@ -1,20 +1,19 @@
--autopopulate date - v1								DONE
--change today's technique to this week's technique - v1				DONE (remove dailyAssignment field of all waza after v1 release)
--cut joe's scores in half - v1							DONE
--make leaderboards only display top 10 - v1					DONE
--change exercises to have unique scores - v1					DONE (remove config collection after v1 release)
+-autopopulate date - v1																	DONE
+-change today's technique to this week's technique - v1													DONE (remove dailyAssignment field of all waza after v1 release)
+-cut joe's scores in half - v1																DONE
+-make leaderboards only display top 10 - v1														DONE
+-change exercises to have unique scores - v1														DONE (remove config collection after v1 release)
 
--all time user scores & leaderboard - v1					easy (replace score field of all users with weeklyScore, rename score field reference in code (and server function), and re-deploy server function IN PREP for v1 release)
-	-add to user allTimeScore in log activity when saving exercise
-	-re-design home activity: make this week's technique same dimensions as other buttons, align left side of buttons to left side of name
+-all time user scores & leaderboard - v1														easy (replace score field of all users with weeklyScore, rename score field reference in code (and server function), and re-deploy server function IN PREP for v1 release)
 	-add all time leaderboard button
--rework libraryActivity to use list functionality of leaderboardActivity	medium
--replace logging								medium
--attending zoom HIIT session is worth points - v1				medium
--build set workouts worth a certain amount of points - v1			hard
--push notification for HIIT sessions & general reminders - v1			hard
+-re-design home activity: make this week's technique same dimensions as other buttons, align left side of buttons to left side of name - v1		easy
+-rework libraryActivity to use list functionality of leaderboardActivity										medium
+-replace logging																	medium
+-attending zoom HIIT session is worth points - v1													medium
+-build set workouts worth a certain amount of points - v1												hard
+-push notification for HIIT sessions & general reminders - v1												hard
 
--streak multiplier for consistency - v2						medium
--milestone/achievements list for both individuals and the team as a whole - v2	hard
--migrate to REACT Native - v2							impossible
--reward system? ranking system? - v2						???
+-streak multiplier for consistency - v2															medium
+-milestone/achievements list for both individuals and the team as a whole - v2										hard
+-migrate to REACT Native - v2																impossible
+-reward system? ranking system? - v2															???

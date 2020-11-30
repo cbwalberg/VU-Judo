@@ -122,8 +122,10 @@ public class LogActivity extends AppCompatActivity {
                     //Half Joe's score per his request
                     if (userEmail.equals("joemore117@gmail.com")) {
                         task.getResult().getReference().update("score", task.getResult().getDouble("score").doubleValue() + ((reps * scoreMultiplier)/2));
+                        task.getResult().getReference().update("allTimeScore", task.getResult().getDouble("allTimeScore").doubleValue() + ((reps * scoreMultiplier)/2));
                     } else {
                         task.getResult().getReference().update("score", task.getResult().getDouble("score").doubleValue() + (reps * scoreMultiplier));
+                        task.getResult().getReference().update("allTimeScore", task.getResult().getDouble("allTimeScore").doubleValue() + (reps * scoreMultiplier));
                     }
 
                     dateDoc.get().addOnCompleteListener(task1 -> {
