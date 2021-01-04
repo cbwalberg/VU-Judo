@@ -2,13 +2,13 @@ package vu.judo.app;
 
 public class User {
 
-    //Variables
+    // Variables
     private String email;
     private String fname;
-    private  String lname;
+    private String lname;
     private int score;
 
-    //Constructor
+    // Constructor
     public User(String email, String firstName, String lastName, int score) {
         this.email = email;
         this.fname = firstName;
@@ -16,7 +16,7 @@ public class User {
         this.score = score;
     }
 
-    //Getters
+    // Getters
     public String getEmail() {
         return email;
     }
@@ -33,7 +33,7 @@ public class User {
         return score;
     }
 
-    //Setters
+    // Setters
     public void setEmail(String email) {
         this.email = email;
     }
@@ -50,7 +50,7 @@ public class User {
         this.score = score;
     }
 
-    //toString
+    // toString
     @Override
     public String toString() {
         return "Email: " + email + "\nFirst Name: " + fname + "\nLast Name: " + lname + "\n Score: " + score;

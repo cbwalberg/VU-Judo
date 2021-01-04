@@ -93,16 +93,24 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(new Intent(this, LogActivity.class).putExtras(thisAssignment));
     }
 
-    public void leaderboard(View view) {
-        startActivity(new Intent(this, LeaderboardActivity.class));
-    }
-
     public void library(View view) {
         startActivity(new Intent(this, LibraryActivity.class));
     }
 
+    public void weeklyLeaderboard(View view) {
+        Bundle leaderboard = new Bundle();
+        leaderboard.putString("leaderboard", "weekly");
+        startActivity(new Intent(this, LeaderboardActivity.class).putExtras(leaderboard));
+    }
+
+    public void allTimeLeaderboard(View view) {
+        Bundle leaderboard = new Bundle();
+        leaderboard.putString("leaderboard", "allTime");
+        startActivity(new Intent(this, LeaderboardActivity.class).putExtras(leaderboard));
+    }
+
     private void getUserInfo() {
-        //Get user info from DB
+        // Get user info from DB
         userDoc = db.collection("users").document(email);
         userDoc.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -114,7 +122,7 @@ public class HomeActivity extends AppCompatActivity {
                     weeklyScore = document.getDouble("score").doubleValue();
                     allTimeScore = document.getDouble("allTimeScore").doubleValue();
 
-                    //Calculate ranks based on score
+                    // Calculate ranks based on score
                     weeklyRank = setRank(weeklyScores, weeklyScore);
                     allTimeRank = setRank(allTimeScores, allTimeScore);
 
@@ -124,9 +132,9 @@ public class HomeActivity extends AppCompatActivity {
                     userWeeklyScoreDisplay.setText(weeklyScoreString);
                     userAllTimeScoreDisplay.setText(allTimeScoreString);
 
-                    //Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                    // Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                 } else {
-                    //Log.d(TAG, "No such document");
+                    // Log.d(TAG, "No such document");
                 }
             } else {
                 Toast.makeText(HomeActivity.this, "Failed to find user information. Please restart the application", Toast.LENGTH_LONG).show();

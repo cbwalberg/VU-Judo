@@ -21,7 +21,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 public class LibraryActivity extends AppCompatActivity {
 
-    static final String TAG = "Library";
+    // static final String TAG = "Library";
 
     int imageResource, previousViewId, previousButtonId;
     String uri;
@@ -51,7 +51,7 @@ public class LibraryActivity extends AppCompatActivity {
             // Log.e(TAG, "getSupportActionBar().setDisplayHomeAsUpEnabled:failure", e);
         }
 
-        //Gets the image used for the plus button for creating the dynamic view
+        // Gets the image used for the plus button for creating the dynamic view
         uri = "@android:drawable/ic_input_add";
         imageResource = getResources().getIdentifier(uri, null, getPackageName());
         res = getResources().getDrawable(imageResource);
@@ -120,7 +120,7 @@ public class LibraryActivity extends AppCompatActivity {
         constraints.connect(tempButton.getId(), ConstraintSet.END, ConstraintSet.PARENT_ID, ConstraintSet.END);
         constraints.setVerticalBias(tempButton.getId(), 0.5f);
 
-        //First waza & exercise are constrained slightly differently than the rest
+        // First waza & exercise are constrained slightly differently than the rest
         if (previousViewId == R.id.uchikomiTitle || previousViewId == R.id.exercisesTitle) {
             constraints.connect(tempView.getId(), ConstraintSet.START, ConstraintSet.PARENT_ID, ConstraintSet.START);
             constraints.setHorizontalBias(tempView.getId(), 0.15f);

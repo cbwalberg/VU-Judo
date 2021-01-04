@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class LogActivity extends AppCompatActivity {
 
-    static final String TAG = "Log";
+    // static final String TAG = "Log";
 
     int reps, selectedDay, selectedMonth, selectedYear;
     float scoreMultiplier;
@@ -56,22 +56,22 @@ public class LogActivity extends AppCompatActivity {
         repsInput = findViewById(R.id.logReps);
         dateView = findViewById(R.id.logDate);
 
-        //Get the exercise passed to this activity from calling activity
+        // Get the exercise passed to this activity from calling activity
         exercise = getIntent().getExtras().getString("exercise");
         exerciseView.setText(exercise);
 
-        //Get the exercise score multiplier passed to this activity from calling activity
+        // Get the exercise score multiplier passed to this activity from calling activity
         scoreMultiplier = getIntent().getExtras().getFloat("multiplier");
         multiplierString = scoreMultiplier == 1.0 ? scoreMultiplier + " point/rep" : scoreMultiplier + " points/rep";
         multiplierView.setText(multiplierString);
 
-        //Set initial date to Today
+        // Set initial date to Today
         calendar = Calendar.getInstance();
         selectedDay = calendar.get(Calendar.DAY_OF_MONTH);
         selectedMonth = calendar.get(Calendar.MONTH);
         selectedYear = calendar.get(Calendar.YEAR);
 
-        //When the dateView text is clicked, show a dialog allowing users to select a date
+        // When the dateView text is clicked, show a dialog allowing users to select a date
         selectedDate = convertMonth(selectedMonth) + " " + selectedDay + " " + selectedYear;
         dateView.setText(selectedDate);
         dateView.setOnClickListener(view -> {
@@ -97,14 +97,14 @@ public class LogActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        //Clear any existing text
+        // Clear any existing text
         repsInput.getText().clear();
     }
 
     public void save(View view) {
         reps = repsInput.getText().toString().equals("") ? 0 : Integer.parseInt(repsInput.getText().toString());
 
-        //Make sure reps have been entered
+        // Make sure reps have been entered
         if (reps > 0) {
             // Find current user, add to their score.
             // Then check if Practice Log collection already exists in current user doc, if so add to it, if not, create collection within user document named Practice Log
@@ -119,7 +119,7 @@ public class LogActivity extends AppCompatActivity {
 
             userDoc.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful() && task.getResult().exists()) {
-                    //Half Joe's score per his request
+                    // Half Joe's score per his request
                     if (userEmail.equals("joemore117@gmail.com")) {
                         task.getResult().getReference().update("score", task.getResult().getDouble("score").doubleValue() + ((reps * scoreMultiplier)/2));
                         task.getResult().getReference().update("allTimeScore", task.getResult().getDouble("allTimeScore").doubleValue() + ((reps * scoreMultiplier)/2));
@@ -132,10 +132,10 @@ public class LogActivity extends AppCompatActivity {
                         if (task1.isSuccessful()) {
                             DocumentSnapshot documentSnapshot = task1.getResult();
                             if (documentSnapshot.contains(exercise)) {
-                                //selectedDate doc contains exercise, update
+                                // selectedDate doc contains exercise, update
                                 dateDoc.update(exercise, documentSnapshot.getLong(exercise).intValue() + reps);
                             } else {
-                                //selectedDate doc does not contain exercise, set value
+                                // selectedDate doc does not contain exercise, set value
                                 Map<String, Object> exerciseInfo = new HashMap<>();
                                 exerciseInfo.put(exercise, reps);
                                 dateDoc.set(exerciseInfo, SetOptions.merge());

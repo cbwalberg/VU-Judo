@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-//https://github.com/codepath/android_guides/wiki/Using-an-ArrayAdapter-with-ListView
+// https://github.com/codepath/android_guides/wiki/Using-an-ArrayAdapter-with-ListView
 public class UsersAdapter extends ArrayAdapter<User> {
 
     int score = 0, rank = 0;
@@ -49,7 +49,7 @@ public class UsersAdapter extends ArrayAdapter<User> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        //If this is the first entry, rank is 1, if this user's score does not equal the previous user's score, than rank is position + 1, else rank remains unchanged as it is equal to the previous user's score
+        // If this is the first entry, rank is 1, if this user's score does not equal the previous user's score, than rank is position + 1, else rank remains unchanged as it is equal to the previous user's score
         if (position == 0) {
             rank = 1;
         } else if (user.getScore() != score) {

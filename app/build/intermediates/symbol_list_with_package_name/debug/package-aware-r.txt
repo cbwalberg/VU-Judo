@@ -1009,13 +1009,14 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
+layout activity_all_time_leaderboard
 layout activity_forgot_password
 layout activity_home
-layout activity_leaderboard
 layout activity_library
 layout activity_log
 layout activity_main
 layout activity_sign_up
+layout activity_weekly_leaderboard
 layout custom_dialog
 layout notification_action
 layout notification_action_tombstone
@@ -1057,6 +1058,7 @@ string abc_searchview_description_voice
 string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
+string allTimeLeaderboard
 string allTimeLeaderboardButton
 string allTimeScore
 string app_name
@@ -1092,7 +1094,6 @@ string google_app_id
 string google_crash_reporting_api_key
 string google_storage_bucket
 string lastNamePrompt
-string leaderboard
 string leaderboardNameHeader
 string leaderboardRankHeader
 string leaderboardScoreHeader
@@ -1106,8 +1107,9 @@ string search_menu_title
 string signUpButton
 string status_bar_notification_info_overflow
 string submit
-string top3
+string top3Leaderboard
 string uchikomi
+string weeklyLeaderboard
 string weeklyLeaderboardButton
 string weeklyScore
 string weeklyUchikomiButton

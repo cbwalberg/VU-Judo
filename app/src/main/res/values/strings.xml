@@ -20,9 +20,10 @@
     <string name="exercises">Exercises</string>
     <string name="logReps">Number of Reps</string>
     <string name="logDateSelect">Select Date</string>
-    <string name="leaderboard">This Week\'s Top 10</string>
+    <string name="top3Leaderboard">Last Week\'s Top 3</string>
+    <string name="weeklyLeaderboard">This Week\'s Top 10</string>
+    <string name="allTimeLeaderboard">All Time Top 10</string>
     <string name="leaderboardRankHeader">Rank</string>
     <string name="leaderboardNameHeader">Name</string>
     <string name="leaderboardScoreHeader">Score</string>
-    <string name="top3">Last Week\'s Top 3</string>
 </resources>
