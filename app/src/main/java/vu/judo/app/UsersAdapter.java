@@ -12,7 +12,8 @@ import java.util.ArrayList;
 // https://github.com/codepath/android_guides/wiki/Using-an-ArrayAdapter-with-ListView
 public class UsersAdapter extends ArrayAdapter<User> {
 
-    int score = 0, rank = 0;
+    int rank = 0;
+    double score = 0;
 
     // View lookup cache
     private static class ViewHolder {

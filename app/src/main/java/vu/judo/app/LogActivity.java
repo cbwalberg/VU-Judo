@@ -28,7 +28,7 @@ public class LogActivity extends AppCompatActivity {
     // static final String TAG = "Log";
 
     int reps, selectedDay, selectedMonth, selectedYear;
-    float scoreMultiplier;
+    double scoreMultiplier;
     String exercise, multiplierString, selectedDate, userEmail;
 
     TextView exerciseView, multiplierView, dateView;
@@ -61,7 +61,7 @@ public class LogActivity extends AppCompatActivity {
         exerciseView.setText(exercise);
 
         // Get the exercise score multiplier passed to this activity from calling activity
-        scoreMultiplier = getIntent().getExtras().getFloat("multiplier");
+        scoreMultiplier = getIntent().getExtras().getDouble("multiplier");
         multiplierString = scoreMultiplier == 1.0 ? scoreMultiplier + " point/rep" : scoreMultiplier + " points/rep";
         multiplierView.setText(multiplierString);
 
@@ -121,11 +121,11 @@ public class LogActivity extends AppCompatActivity {
                 if (task.isSuccessful() && task.getResult().exists()) {
                     // Half Joe's score per his request
                     if (userEmail.equals("joemore117@gmail.com")) {
-                        task.getResult().getReference().update("score", task.getResult().getDouble("score").doubleValue() + ((reps * scoreMultiplier)/2));
-                        task.getResult().getReference().update("allTimeScore", task.getResult().getDouble("allTimeScore").doubleValue() + ((reps * scoreMultiplier)/2));
+                        task.getResult().getReference().update("score", task.getResult().getDouble("score") + ((reps * scoreMultiplier)/2));
+                        task.getResult().getReference().update("allTimeScore", task.getResult().getDouble("allTimeScore") + ((reps * scoreMultiplier)/2));
                     } else {
-                        task.getResult().getReference().update("score", task.getResult().getDouble("score").doubleValue() + (reps * scoreMultiplier));
-                        task.getResult().getReference().update("allTimeScore", task.getResult().getDouble("allTimeScore").doubleValue() + (reps * scoreMultiplier));
+                        task.getResult().getReference().update("score", task.getResult().getDouble("score") + (reps * scoreMultiplier));
+                        task.getResult().getReference().update("allTimeScore", task.getResult().getDouble("allTimeScore") + (reps * scoreMultiplier));
                     }
 
                     dateDoc.get().addOnCompleteListener(task1 -> {

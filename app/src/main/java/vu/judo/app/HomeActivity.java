@@ -25,7 +25,7 @@ public class HomeActivity extends AppCompatActivity {
     // static final String TAG = "Home";
 
     double weeklyScore, allTimeScore;
-    float weeklyUchikomiMultiplier;
+    double weeklyUchikomiMultiplier;
     String email, firstName, weeklyRank, allTimeRank, weeklyUchikomi;
     ArrayList<Double> weeklyScores, allTimeScores;
 
@@ -57,8 +57,8 @@ public class HomeActivity extends AppCompatActivity {
         users.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    weeklyScores.add(document.getDouble("score").doubleValue());
-                    allTimeScores.add(document.getDouble("allTimeScore").doubleValue());
+                    weeklyScores.add(document.getDouble("score"));
+                    allTimeScores.add(document.getDouble("allTimeScore"));
                 }
                 Collections.sort(weeklyScores, Collections.reverseOrder());
                 Collections.sort(allTimeScores, Collections.reverseOrder());
@@ -75,7 +75,7 @@ public class HomeActivity extends AppCompatActivity {
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     if (document.getBoolean("weeklyAssignment")) {
                         weeklyUchikomi = document.getString("name");
-                        weeklyUchikomiMultiplier = document.getDouble("multiplier").floatValue();
+                        weeklyUchikomiMultiplier = document.getDouble("multiplier");
                         break;
                     }
                 }
@@ -89,7 +89,7 @@ public class HomeActivity extends AppCompatActivity {
         Bundle thisAssignment = new Bundle();
         thisAssignment.putString("goto", "HomeActivity");
         thisAssignment.putString("exercise", weeklyUchikomi);
-        thisAssignment.putFloat("multiplier", weeklyUchikomiMultiplier);
+        thisAssignment.putDouble("multiplier", weeklyUchikomiMultiplier);
         startActivity(new Intent(this, LogActivity.class).putExtras(thisAssignment));
     }
 
@@ -119,8 +119,8 @@ public class HomeActivity extends AppCompatActivity {
                     firstName = document.getString("firstName");
                     userNameDisplay.setText(firstName);
 
-                    weeklyScore = document.getDouble("score").doubleValue();
-                    allTimeScore = document.getDouble("allTimeScore").doubleValue();
+                    weeklyScore = document.getDouble("score");
+                    allTimeScore = document.getDouble("allTimeScore");
 
                     // Calculate ranks based on score
                     weeklyRank = setRank(weeklyScores, weeklyScore);

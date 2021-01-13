@@ -6,10 +6,10 @@ public class User {
     private String email;
     private String fname;
     private String lname;
-    private int score;
+    private double score;
 
     // Constructor
-    public User(String email, String firstName, String lastName, int score) {
+    public User(String email, String firstName, String lastName, double score) {
         this.email = email;
         this.fname = firstName;
         this.lname = lastName;
@@ -29,7 +29,7 @@ public class User {
         return lname;
     }
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 
@@ -46,7 +46,7 @@ public class User {
         this.lname = lname;
     }
 
-    public void setScore(int score) {
+    public void setScore(double score) {
         this.score = score;
     }
 

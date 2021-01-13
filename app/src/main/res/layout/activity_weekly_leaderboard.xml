@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,140 +7,126 @@
     android:fillViewport="true"
     tools:context=".LeaderboardActivity">
 
-    <TextView
-        android:id="@+id/top3Title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:text="@string/top3Leaderboard"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <LinearLayout
-        android:id="@+id/top3Headers"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top3Title"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        android:layout_height="wrap_content" >
 
         <TextView
-            android:id="@+id/top3RankHeader"
-            android:layout_width="0px"
+            android:id="@+id/top3Title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_weight="1"
-            android:text="@string/leaderboardRankHeader"
-            android:textStyle="italic" />
+            android:layout_marginTop="25dp"
+            android:text="@string/top3Leaderboard"
+            android:textSize="20sp"
+            android:layout_centerHorizontal="true" />
+
+        <LinearLayout
+            android:id="@+id/top3Headers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/top3Title">
+
+            <TextView
+                android:id="@+id/top3RankHeader"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:text="@string/leaderboardRankHeader"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/top3NameHeader"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="3"
+                android:text="@string/leaderboardNameHeader"
+                android:textStyle="italic" />
+            <TextView
+                android:id="@+id/top3ScoreHeader"
+                android:layout_width="0px"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="@string/leaderboardScoreHeader"
+                android:textStyle="italic"/>
+        </LinearLayout>
+
+        <vu.judo.app.NonScrollListView
+            android:id="@+id/top3List"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/top3Headers" />
 
         <TextView
-            android:id="@+id/top3NameHeader"
-            android:layout_width="0px"
+            android:id="@+id/leaderboardTitle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_weight="3"
-            android:text="@string/leaderboardNameHeader"
-            android:textStyle="italic" />
-        <TextView
-            android:id="@+id/top3ScoreHeader"
-            android:layout_width="0px"
-            android:layout_weight="2"
+            android:layout_marginTop="25dp"
+            android:text="@string/weeklyLeaderboard"
+            android:textSize="20sp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/top3List"/>
+
+        <LinearLayout
+            android:id="@+id/leaderboardHeaders"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:text="@string/leaderboardScoreHeader"
-            android:textStyle="italic"/>
-    </LinearLayout>
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/leaderboardTitle">
 
-    <ListView
-        android:id="@+id/top3List"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top3Headers"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.0"/>
+            <TextView
+                android:id="@+id/leaderboardRankHeader"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:text="@string/leaderboardRankHeader"
+                android:textStyle="italic" />
 
-    <TextView
-        android:id="@+id/leaderboardTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:text="@string/weeklyLeaderboard"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top3List"
-        app:layout_constraintVertical_bias="0.0" />
+            <TextView
+                android:id="@+id/leaderboardNameHeader"
+                android:layout_width="0px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="3"
+                android:text="@string/leaderboardNameHeader"
+                android:textStyle="italic" />
+            <TextView
+                android:id="@+id/leaderboardScoreHeader"
+                android:layout_width="0px"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="@string/leaderboardScoreHeader"
+                android:textStyle="italic"/>
+        </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/leaderboardHeaders"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/leaderboardTitle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.0">
-
-        <TextView
-            android:id="@+id/leaderboardRankHeader"
-            android:layout_width="0px"
+        <vu.judo.app.NonScrollListView
+            android:id="@+id/leaderboardList"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_weight="1"
-            android:text="@string/leaderboardRankHeader"
-            android:textStyle="italic" />
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/leaderboardHeaders"/>
 
-        <TextView
-            android:id="@+id/leaderboardNameHeader"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_weight="3"
-            android:text="@string/leaderboardNameHeader"
-            android:textStyle="italic" />
-        <TextView
-            android:id="@+id/leaderboardScoreHeader"
-            android:layout_width="0px"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:text="@string/leaderboardScoreHeader"
-            android:textStyle="italic"/>
-    </LinearLayout>
-
-    <ListView
-        android:id="@+id/leaderboardList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/leaderboardHeaders"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+</ScrollView>

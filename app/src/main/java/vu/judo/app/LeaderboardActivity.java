@@ -88,12 +88,12 @@ public class LeaderboardActivity extends AppCompatActivity {
         leaderboardHistoryUsers.get().addOnSuccessListener(queryDocumentSnapshots -> {
             // Gather all user history from leaderboardHistoryDoc into top3List
             for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                temp = new User(document.getString("email"), document.getString("firstName"), document.getString("lastName"), document.getLong("score").intValue());
+                temp = new User(document.getString("email"), document.getString("firstName"), document.getString("lastName"), document.getDouble("score"));
                 top3List.add(temp);
             }
 
             // Sort leaderboardList by score in descending order
-            Collections.sort(top3List, (o1, o2) -> o2.getScore() - o1.getScore());
+            Collections.sort(top3List, (o1, o2) -> Double.compare(o2.getScore(), o1.getScore()));
 
             if (top3List.size() > 3) {
                 top3List = new ArrayList<>(top3List.subList(0, 3));
@@ -114,15 +114,15 @@ public class LeaderboardActivity extends AppCompatActivity {
             // Gather all users into leaderboardList
             for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                 if (type.equals("weekly")) {
-                    temp = new User(document.getString("email"), document.getString("firstName"), document.getString("lastName"), document.getLong("score").intValue());
+                    temp = new User(document.getString("email"), document.getString("firstName"), document.getString("lastName"), document.getDouble("score"));
                 } else {
-                    temp = new User(document.getString("email"), document.getString("firstName"), document.getString("lastName"), document.getLong("allTimeScore").intValue());
+                    temp = new User(document.getString("email"), document.getString("firstName"), document.getString("lastName"), document.getDouble("allTimeScore"));
                 }
                 leaderboardList.add(temp);
             }
 
             // Sort leaderboardList by score in descending order
-            Collections.sort(leaderboardList, (o1, o2) -> o2.getScore() - o1.getScore());
+            Collections.sort(leaderboardList, (o1, o2) -> Double.compare(o2.getScore(), o1.getScore()));
 
             if (leaderboardList.size() > 10) {
                 leaderboardList = new ArrayList<>(leaderboardList.subList(0, 10));
